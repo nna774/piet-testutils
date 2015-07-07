@@ -5,5 +5,5 @@ node_js:
 before_install:
   - sudo apt-get -qq update
 install:
-  - sudo apt-get -qq install imagemagick libmagickwand-dev libmagickcore-dev
+  - sudo apt-get -qq install imagemagick libmagickwand-dev libmagickcore-dev libgif-dev
   - npm install
