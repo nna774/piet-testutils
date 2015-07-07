@@ -1,7 +1,6 @@
 // config.js
 
 var codel = 10;
-var filename = 'devide_by_2.10cs.11x4.png';
 
 var verbose = false;
 
