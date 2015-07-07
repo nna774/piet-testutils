@@ -33,7 +33,6 @@ var colors = {
 // rewrite here
 var config  = module.exports = {
     codel: codel,
-    filename: filename,
 
     colors: colors,
     verbose: verbose,

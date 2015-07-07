@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - 0.12
+before_install:
+  - sudo apt-get -qq update
+install:
+  - sudo apt-get -qq install imagemagick libmagickwand-dev libmagickcore-dev libgif-dev
+  - npm install
