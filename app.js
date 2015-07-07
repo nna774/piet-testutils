@@ -2,8 +2,9 @@
 
 var Canvas = require('canvas')
   , Image = Canvas.Image
+  , fs = require('fs')
   , config = require('./config')
-  , fs = require('fs');
+  , interpreter = require('./interpreter');
 
 function main(image) {
     var canvas = new Canvas(config.width * config.codel, config.height * config.codel);
@@ -28,13 +29,7 @@ function main(image) {
 	}
     }
 
-    for(i = 0; i < config.height; ++i) {
-	for(var j = 0; j < config.width; ++j) {
-	    process.stdout.write(code[i][j]);
-	    process.stdout.write(',');
-	}
-	process.stdout.write("\n");
-    }
+    console.log(interpreter.run(code, ''));
 }
 
 function pick_color(ctx, x, y) {
