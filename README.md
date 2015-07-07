@@ -11,14 +11,14 @@ npm install
 ````
 
 # 使い方
-config.js を開いて、codel, 縦横、テストするファイル名を変更してください(この辺はファイル名与えて実行したら自動でなんとかして欲しさがある)。
+config.js を開いて、codelを変更してください。
 
 その下のverbose変数は、falseの時はテスト失敗時にだけ報告し、trueの時は成功時にも報告します。
 
 次にtests.jsを開いてください。空気を読んで設定してください。
 inputは、配列で指定してください。
 
-設定が完了したら`node app.js`で動かしてください。
+設定が完了したら`node app.js (テストしたい画像のファイル名)`で動かしてください。
 
 # License
 LGPL3.0 or any later versionです。

@@ -57,9 +57,16 @@ function pick_color(ctx, x, y) {
     return (data[0] << 16) + (data[1] << 8) + (data[2] << 0);
 }
 
-easyimg.info(config.filename).then(
+if (process.argv.length < 3) {
+    console.log('missing argument.');
+    return;
+}
+
+var filename = process.argv[2];
+
+easyimg.info(filename).then(
     function(info){
-	fs.readFile(config.filename, function(err, data) {
+	fs.readFile(filename, function(err, data) {
             if (err) throw err;
             image = new Image();
             image.src = data;
