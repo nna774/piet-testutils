@@ -5,7 +5,7 @@ var width = 110;
 var height = 40;
 var filename = 'devide_by_2.10cs.11x4.png';
 
-var verbose = true;
+var verbose = false;
 
 if (width % codel != 0 || height % codel != 0) {
     console.error("yabasou");
