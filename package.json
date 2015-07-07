@@ -1,0 +1,27 @@
+{
+  "name": "piet-testutils",
+  "version": "1.0.0",
+  "description": "testutils for piet",
+  "main": "app.js",
+  "dependencies": {
+    "canvas": "^1.2.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nna774/piet-testutils.git"
+  },
+  "keywords": [
+    "Piet",
+    "test"
+  ],
+  "author": "NoNameA 774",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/nna774/piet-testutils/issues"
+  },
+  "homepage": "https://github.com/nna774/piet-testutils#readme"
+}
