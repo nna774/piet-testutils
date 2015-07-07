@@ -3,7 +3,7 @@
 Piet のテストツールです。
 
 # install
-nodejsに依存しています。
+nodejsとimagemagickに依存しています。
 
 ````
 git clone git@github.com:nna774/piet-testutils.git
