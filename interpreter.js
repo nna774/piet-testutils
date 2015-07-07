@@ -559,12 +559,12 @@ next = function(env, code) {
     var currentColor = code[env.x][env.y];
     var nextColor = code[nextCodel[0]][nextCodel[1]];
 
-    console.log(nextCodel)
-    console.log("current:" + currentColor + ", next: " + nextColor)
-    console.log(env.stack)
-    console.log(env.area)
-    process.stdout.write("dp: " + env.dp.toString());
-    process.stdout.write(", cc: " + env.cc.toString() + "\n");
+    // console.log(nextCodel)
+    // console.log("current:" + currentColor + ", next: " + nextColor)
+    // console.log(env.stack)
+    // console.log(env.area)
+    // process.stdout.write("dp: " + env.dp.toString());
+    // process.stdout.write(", cc: " + env.cc.toString() + "\n");
 
     env.area = nextCodel[2];
     execCommand(env, currentColor, nextColor);
@@ -589,8 +589,11 @@ module.exports = {
     next: next,
 
     run: function(code, input) {
-	var env = defaultEnv;
+	var env = {};
+	env.x = env.y = env.dp = env.cc = env.area = 0;
+	env.stack = [];
 	env.input = input;
+	env.output = '';
 	return next(env, code);
     },
 };

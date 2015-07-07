@@ -1,9 +1,11 @@
 // config.js
 
 var codel = 10;
-var width = 20;
-var height = 80;
-var filename = 'image.png';
+var width = 110;
+var height = 40;
+var filename = 'devide_by_2.10cs.11x4.png';
+
+var verbose = true;
 
 if (width % codel != 0 || height % codel != 0) {
     console.error("yabasou");
@@ -43,6 +45,7 @@ var config  = module.exports = {
     filename: filename,
 
     colors: colors,
+    verbose: verbose,
 };
 
 

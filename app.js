@@ -4,7 +4,8 @@ var Canvas = require('canvas')
   , Image = Canvas.Image
   , fs = require('fs')
   , config = require('./config')
-  , interpreter = require('./interpreter');
+  , interpreter = require('./interpreter')
+  , tests = require('./tests');
 
 function main(image) {
     var canvas = new Canvas(config.width * config.codel, config.height * config.codel);
@@ -29,7 +30,17 @@ function main(image) {
 	}
     }
 
-    console.log(interpreter.run(code, ''));
+    for (c of tests.cases) {
+        var output = interpreter.run(code, c.input);
+	if (output !== c.expect) {
+	    console.log("test " + c.name + " failed!");
+	    console.log("expected: " + c.expect + ", but it puts " + output);
+	} else {
+	    if(config.verbose) {
+		console.log("test " + c.name + " passed!");
+	    }
+	}
+    }
 }
 
 function pick_color(ctx, x, y) {
