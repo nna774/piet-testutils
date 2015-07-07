@@ -68,13 +68,241 @@ function unmovable(code, codel) {
 }
 
 function execCommand(env, currentColor, nextColor) {
+    if (currentColor === 'white' || nextColor === 'white') { return; /* nothing */ }
+    var currentT = table[currentColor];
+    var nextT = table[nextColor];
+
+    var diffL = (nextT[0] - currentT[0] + 3) % 3;
+    var diffH = (nextT[1] - currentT[1] +6) % 6;
+
+    switch (diffH) {
+    case 0:
+	if (diffL === 0) { /* none */ }
+	if (diffL === 1) { /* push */
+	    env.stack.push(env.area);
+	}
+	if (diffL === 2) { /* pop */
+	    env.stack.pop();
+	}
+	break;
+    case 1:
+	if (diffL === 0) { /* add */
+	    var tmp1 = env.stack.pop();
+	    var tmp2 = env.stack.pop();
+	    if (tmp1 !== undefined) {
+		if (tmp2 !== undefined) {
+		    env.stack.push(tmp1 + tmp2);
+		} else { // 2つ目が取れなかったので、スタックを戻す。
+		    env.stack.push(tmp1);
+		}
+	    } else {
+		// 一つも取れず失敗した。
+	    }
+	}
+	if (diffL === 1) { /* substract */
+	    var tmp1 = env.stack.pop();
+	    var tmp2 = env.stack.pop();
+	    if (tmp1 !== undefined) {
+		if (tmp2 !== undefined) {
+		    env.stack.push(tmp2 - tmp1);
+		} else { // 2つ目が取れなかったので、スタックを戻す。
+		    env.stack.push(tmp1);
+		}
+	    } else {
+		// 一つも取れず失敗した。
+	    }
+	}
+	if (diffL === 2) { /* multiply */
+	    var tmp1 = env.stack.pop();
+	    var tmp2 = env.stack.pop();
+	    if (tmp1 !== undefined) {
+		if (tmp2 !== undefined) {
+		    env.stack.push(tmp1 * tmp2);
+		} else { // 2つ目が取れなかったので、スタックを戻す。
+		    env.stack.push(tmp1);
+		}
+	    } else {
+		// 一つも取れず失敗した。
+	    }
+	}
+	break;
+    case 2:
+	if (diffL === 0) { /* divide */
+	    var tmp1 = env.stack.pop();
+	    var tmp2 = env.stack.pop();
+	    if (tmp1 !== undefined) {
+		if (tmp2 !== undefined) {
+		    if (tmp1 !== 0) {
+			env.stack.push((tmp2 / tmp1)|0);
+		    } else { // 失敗した。スタックを戻す。
+			env.stack.push(tmp2);
+			env.stack.push(tmp1);
+		    }
+		} else { // 2つ目が取れなかったので、スタックを戻す。
+		    env.stack.push(tmp1);
+		}
+	    } else {
+		// 一つも取れず失敗した。
+	    }
+	}
+	if (diffL === 1) { /* mod */
+	    var tmp1 = env.stack.pop();
+	    var tmp2 = env.stack.pop();
+	    if (tmp1 !== undefined) {
+		if (tmp2 !== undefined) {
+		    if (tmp1 !== 0) {
+			env.stack.push(tmp2 % tmp1);
+		    } else { // 失敗した。スタックを戻す。
+			env.stack.push(tmp2);
+			env.stack.push(tmp1);
+		    }
+		} else { // 2つ目が取れなかったので、スタックを戻す。
+		    env.stack.push(tmp1);
+		}
+	    } else {
+		// 一つも取れず失敗した。
+	    }
+	}
+	if (diffL === 2) { /* not */
+	    var tmp = env.stack.pop();
+	    if (tmp !== undefined) {
+		if (tmp === 0) {
+		    env.stack.push(1);
+		} else {
+		    env.stack.push(0);
+		}
+	    } else {
+		// 取れなかった場合なので積まない。
+	    }
+	}
+	break;
+    case 3:
+	if (diffL === 0) { /* greater */
+	    var tmp1 = env.stack.pop();
+	    var tmp2 = env.stack.pop();
+	    if (tmp1 !== undefined) {
+		if (tmp2 !== undefined) {
+		    if (tmp2 > tmp1) {
+			env.stack.push(1);
+		    } else {
+			env.stack.push(0);
+		    }
+		} else { // 2つ目が取れなかったので、スタックを戻す。
+		    env.stack.push(tmp1);
+		}
+	    } else {
+		// 一つも取れず失敗した。
+	    }
+	}
+	if (diffL === 1) { /* pointer */
+	    var tmp = env.stack.pop();
+	    if (tmp !== undefined) {
+		env.dp += tmp;
+	    } else {
+		// 取れなかった。
+	    }
+	}
+	if (diffL === 2) { /* switch */
+	    var tmp = env.stack.pop();
+	    if (tmp !== undefined) {
+		env.cc += tmp;
+	    } else {
+		// 取れなかった。
+	    }
+	}
+	break;
+    case 4:
+	if (diffL === 0) { /* duplicate */
+	    var tmp = env.stack.pop();
+	    if (tmp !== undefined) {
+		env.stack.push(tmp);
+		env.stack.push(tmp);
+	    } else {
+		// 取れなかった。
+	    }
+	}
+	if (diffL === 1) { /* roll */
+	    // めんどくさい
+	    var tmp1 = env.stack.pop();
+	    var tmp2 = env.stack.pop();
+	    if (tmp1 !== undefined) {
+		if (tmp2 !== undefined) {
+		    if (tmp2 < 0) { // 深さが負のロールは失敗する。
+			env.stack.push(tmp2);
+			env.stack.push(tmp1);
+		    } else { // ここ
+			var fail = false;
+			var view = new Array(tmp2);
+			for (var i = 0; i < tmp2; ++i) {
+			    view[i] = env.stack.pop();
+			}
+			for (i = 0; i < tmp2; ++i) { // 失敗してないかな？
+			    if (view[i] === undefined) {
+				break;
+			    }
+			}
+			if (i !== 0) { // 失敗してた。
+			    var last = i;
+			    fail = true;
+			    for (i = 0; i < last; ++i) { // 巻き戻す。
+				env.stack.push(view[i]);
+			    }
+			}
+			if (!fail) {
+			    var res = new Array(tmp2);
+			    for (var i in view) {
+				res[i] = view[(i+tmp1)%tmp2];
+			    }
+			    for (i = 0; i < tmp2; ++tmp2) {
+				env.stack.push(res.pop());
+			    }
+			}
+		    }
+		} else { // 2つ目が取れなかったので、スタックを戻す。
+		    env.stack.push(tmp1);
+		}
+	    } else {
+		// 一つも取れず失敗した。
+	    }
+	}
+	if (diffL === 2) { /* in(num) */
+	    var tmp = env.input.shift();
+	    var num = parseInt(tmp, 10);
+	    if (!Number.isNaN(num)) {
+		env.stack.push(num);
+	    } else {
+		// どうしよう？
+	    }
+	}
+	break;
+    case 5:
+	if (diffL === 0) { /* in(char) */
+	    var tmp = env.input.shift();
+	    var num = tmp.charCodeAt(0);
+	    env.stack.push(num);
+	}
+	if (diffL === 1) { /* out(num) */
+	    var tmp = env.stack.pop();
+	    if (tmp !== undefined) {
+		env.output += tmp.toString();
+	    }
+	}
+	if (diffL === 2) { /* out(char) */
+	    var tmp = env.stack.pop();
+	    if (tmp !== undefined) {
+		env.output += String.fromCharCode(tmp);
+	    }
+	}
+	break;
+    }
 }
 
-findNextCodel = function(env, code) {
+function findNextCodelImp(env, code) {
     var list = [];
     var color = code[env.x][env.y];
     var w = width(code);
     var h = height(code);
+    var dp = env.dp, cc = env.cc;
 
     // 同色の探索
     var que = [[env.x, env.y]];
@@ -164,7 +392,8 @@ findNextCodel = function(env, code) {
 	}
     }
 
-    var dp = env.dp, cc = env.cc;
+    var area = list.length;
+
     var nextCodel = [-1, -1];
     switch (dp % 4) {
     case 0:
@@ -212,13 +441,13 @@ findNextCodel = function(env, code) {
 	if (list.length !== 1) {
 	    // cc を考慮
 	    if (cc % 2 === 0) {
-		var min = Infinity;
-		for (var p of list) min = Math.min(min, p[0])
-		list = list.filter(function(p){ return p[0] == min; });
-	    } else {
 		var max = -1;
 		for (var p of list) max = Math.max(max, p[0])
 		list = list.filter(function(p){ return p[0] == max; });
+	    } else {
+		var min = Infinity;
+		for (var p of list) min = Math.min(min, p[0])
+		list = list.filter(function(p){ return p[0] == min; });
 	    }
 	}
 	nextCodel = list[0];
@@ -251,14 +480,44 @@ findNextCodel = function(env, code) {
     // process.stdout.write("\n");
     // console.log(list)
     // process.stdout.write("#########\n");
+
     // ここに来た時、listの長さは1となっている。
+
+
+    nextCodel[2] = area; // 現在の色の広さ こんなところに突っ込むのは気持ち悪いけど……。
     return nextCodel;
+}
+
+function findNextCodel(env, code) {
+    var point = findNextCodelImp(env, code);
+
+    if (outside(code, point)) { return point; }
+    var color = code[point[0]][point[1]];
+
+    if (color === 'white') {
+	while (!outside(code, point) && code[point[0]][point[1]] === 'white') { // まっすぐ進む
+	    switch (env.dp % 4) {
+	    case 0:
+		point[1]++;
+		break;
+	    case 1:
+		point[0]++;
+		break;
+	    case 2:
+		point[1]--;
+		break;
+	    case 3:
+		point[0]--;
+		break;
+	    }
+	}
+    }
+    return point;
 }
 
 next = function(env, code) {
     var nextCodel = findNextCodel(env, code);
 
-    console.log(nextCodel);
     // ここなんとかしたい。
     if (unmovable(code, nextCodel)) {
 	env.cc++;
@@ -300,6 +559,14 @@ next = function(env, code) {
     var currentColor = code[env.x][env.y];
     var nextColor = code[nextCodel[0]][nextCodel[1]];
 
+    console.log(nextCodel)
+    console.log("current:" + currentColor + ", next: " + nextColor)
+    console.log(env.stack)
+    console.log(env.area)
+    process.stdout.write("dp: " + env.dp.toString());
+    process.stdout.write(", cc: " + env.cc.toString() + "\n");
+
+    env.area = nextCodel[2];
     execCommand(env, currentColor, nextColor);
     env.x = nextCodel[0];
     env.y = nextCodel[1];
@@ -313,12 +580,12 @@ var defaultEnv = {
     dp: 0,
     cc: 0,
     stack: [],
-    input: '',
+    input: [],
     output: '',
+    area: 0,
 };
 
 module.exports = {
-    findNextCodel: findNextCodel,
     next: next,
 
     run: function(code, input) {
