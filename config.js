@@ -1,15 +1,9 @@
 // config.js
 
 var codel = 10;
-var width = 110;
-var height = 40;
 var filename = 'devide_by_2.10cs.11x4.png';
 
 var verbose = false;
-
-if (width % codel != 0 || height % codel != 0) {
-    console.error("yabasou");
-}
 
 var colors = {
     'lred': 0xffc0c0, // light red
@@ -40,8 +34,6 @@ var colors = {
 // rewrite here
 var config  = module.exports = {
     codel: codel,
-    width: width / codel,
-    height: height / codel,
     filename: filename,
 
     colors: colors,

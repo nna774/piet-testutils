@@ -4,7 +4,8 @@
   "description": "testutils for piet",
   "main": "app.js",
   "dependencies": {
-    "canvas": "^1.2.3"
+    "canvas": "^1.2.3",
+    "easyimage": "^2.0.3"
   },
   "devDependencies": {},
   "scripts": {
