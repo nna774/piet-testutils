@@ -545,7 +545,7 @@ next = function(env, code) {
 				    nextCodel = findNextCodel(env, code);
 				    if (unmovable(code, nextCodel)) {
 					// おしまい
-					return env.output;
+					return 'stop';
 				    }
 				}
 			    }
@@ -571,8 +571,16 @@ next = function(env, code) {
     env.x = nextCodel[0];
     env.y = nextCodel[1];
 
-    return next(env, code);
+    return 'cont';
 };
+
+function run(env, code) {
+    var status = 'init';
+    while (status !== 'stop') {
+	status = next(env, code);
+    }
+    return env.output;
+}
 
 var defaultEnv = {
     x: 0,
@@ -594,6 +602,6 @@ module.exports = {
 	env.stack = [];
 	env.input = input;
 	env.output = '';
-	return next(env, code);
+	return run(env, code);
     },
 };
