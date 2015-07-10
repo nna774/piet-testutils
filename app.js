@@ -48,10 +48,10 @@ function main(image, info) {
     }
     if (all) {
         console.log("all tests passed!");
-        return 0;
+        process.exit(0);
     } else {
         console.log("some tests failed...");
-        return 1;
+        process.exit(1);
     }
 }
 
