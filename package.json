@@ -9,7 +9,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node app.js devide_by_2.10cs.11x4.png"
+    "test": "echo no test."
   },
   "repository": {
     "type": "git",
