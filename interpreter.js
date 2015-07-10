@@ -494,7 +494,9 @@ function findNextCodel(env, code) {
     if (outside(code, point)) { return point; }
     var color = code[point[0]][point[1]];
 
+    point['exec'] = true;
     if (color === 'white') {
+	point['exec'] = false;
 	while (!outside(code, point) && code[point[0]][point[1]] === 'white') { // まっすぐ進む
 	    switch (env.dp % 4) {
 	    case 0:
@@ -567,7 +569,9 @@ next = function(env, code) {
     // process.stdout.write(", cc: " + env.cc.toString() + "\n");
 
     env.area = nextCodel[2];
-    execCommand(env, currentColor, nextColor);
+    if (nextCodel['exec']) {
+	execCommand(env, currentColor, nextColor);
+    }
     env.x = nextCodel[0];
     env.y = nextCodel[1];
 
