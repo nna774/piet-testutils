@@ -79,14 +79,20 @@ function execCommand(env, currentColor, nextColor) {
     case 0:
 	if (diffL === 0) { /* none */ }
 	if (diffL === 1) { /* push */
+	    // console.log("push");
+	    // console.log(env.stack);
 	    env.stack.push(env.area);
+	    // console.log(env.stack);
+	    // console.log("#push");
 	}
 	if (diffL === 2) { /* pop */
+	    // console.log("pop");
 	    env.stack.pop();
 	}
 	break;
     case 1:
 	if (diffL === 0) { /* add */
+	    // console.log("add");
 	    var tmp1 = env.stack.pop();
 	    var tmp2 = env.stack.pop();
 	    if (tmp1 !== undefined) {
@@ -100,6 +106,7 @@ function execCommand(env, currentColor, nextColor) {
 	    }
 	}
 	if (diffL === 1) { /* substract */
+	    // console.log("sub");
 	    var tmp1 = env.stack.pop();
 	    var tmp2 = env.stack.pop();
 	    if (tmp1 !== undefined) {
@@ -113,6 +120,7 @@ function execCommand(env, currentColor, nextColor) {
 	    }
 	}
 	if (diffL === 2) { /* multiply */
+	    // console.log("mul");
 	    var tmp1 = env.stack.pop();
 	    var tmp2 = env.stack.pop();
 	    if (tmp1 !== undefined) {
@@ -128,6 +136,7 @@ function execCommand(env, currentColor, nextColor) {
 	break;
     case 2:
 	if (diffL === 0) { /* divide */
+	    // console.log("div");
 	    var tmp1 = env.stack.pop();
 	    var tmp2 = env.stack.pop();
 	    if (tmp1 !== undefined) {
@@ -146,6 +155,9 @@ function execCommand(env, currentColor, nextColor) {
 	    }
 	}
 	if (diffL === 1) { /* mod */
+	    // console.log("mod");
+	    // console.log(env.stack);
+	    // console.log("#mod");
 	    var tmp1 = env.stack.pop();
 	    var tmp2 = env.stack.pop();
 	    if (tmp1 !== undefined) {
@@ -164,6 +176,7 @@ function execCommand(env, currentColor, nextColor) {
 	    }
 	}
 	if (diffL === 2) { /* not */
+	    // console.log("not");
 	    var tmp = env.stack.pop();
 	    if (tmp !== undefined) {
 		if (tmp === 0) {
@@ -178,6 +191,8 @@ function execCommand(env, currentColor, nextColor) {
 	break;
     case 3:
 	if (diffL === 0) { /* greater */
+	    // console.log("greater");
+	    // console.log(env.stack);
 	    var tmp1 = env.stack.pop();
 	    var tmp2 = env.stack.pop();
 	    if (tmp1 !== undefined) {
@@ -195,7 +210,9 @@ function execCommand(env, currentColor, nextColor) {
 	    }
 	}
 	if (diffL === 1) { /* pointer */
+	    // console.log("pointer");
 	    var tmp = env.stack.pop();
+	    // console.log("#pointer: dp + " + tmp)
 	    if (tmp !== undefined) {
 		env.dp += tmp;
 	    } else {
@@ -203,6 +220,7 @@ function execCommand(env, currentColor, nextColor) {
 	    }
 	}
 	if (diffL === 2) { /* switch */
+	    // console.log("switch");
 	    var tmp = env.stack.pop();
 	    if (tmp !== undefined) {
 		env.cc += tmp;
@@ -213,6 +231,7 @@ function execCommand(env, currentColor, nextColor) {
 	break;
     case 4:
 	if (diffL === 0) { /* duplicate */
+	    // console.log("dup");
 	    var tmp = env.stack.pop();
 	    if (tmp !== undefined) {
 		env.stack.push(tmp);
@@ -222,6 +241,7 @@ function execCommand(env, currentColor, nextColor) {
 	    }
 	}
 	if (diffL === 1) { /* roll */
+	    // console.log("roll")
 	    // めんどくさい
 	    var tmp1 = env.stack.pop();
 	    var tmp2 = env.stack.pop();
@@ -231,13 +251,17 @@ function execCommand(env, currentColor, nextColor) {
 			env.stack.push(tmp2);
 			env.stack.push(tmp1);
 		    } else { // ここ
+			// console.log("pre")
+			// console.log(env.stack)
+			// console.log(tmp1)
+			// console.log(tmp2)
 			var fail = false;
 			var view = new Array(tmp2);
 			for (var i = 0; i < tmp2; ++i) {
 			    view[i] = env.stack.pop();
 			}
-			for (i = 0; i < tmp2; ++i) { // 失敗してないかな？
-			    if (view[i] === undefined) {
+			for (i = tmp2; i > 0; --i) { // 失敗してないかな？
+			    if (view[i-1] === undefined) {
 				break;
 			    }
 			}
@@ -248,18 +272,24 @@ function execCommand(env, currentColor, nextColor) {
 				env.stack.push(view[i]);
 			    }
 			}
+			// console.log(view)
+			// console.log(env.stack)
+			// console.log(fail)
 			if (!fail) {
 			    var res = new Array(tmp2);
-			    for (var i in view) {
+			    for (var i = 0; i < res.length; ++i) {
 				res[i] = view[(i+tmp1)%tmp2];
 			    }
-			    for (i = 0; i < tmp2; ++tmp2) {
-				env.stack.push(res.pop());
+			    // console.log(res)
+			    // console.log(env.stack)
+			    for (var i = 0; i < res.length; ++i) {
+				env.stack.push(res[i]);
 			    }
 			}
+			// console.log("post")
+			// console.log(env.stack)
 		    }
-		} else { // 2つ目が取れなかったので、スタックを戻す。
-		    env.stack.push(tmp1);
+		} else { // 2つ目が取れなかったので、スタックを戻す。		    env.stack.push(tmp1);
 		}
 	    } else {
 		// 一つも取れず失敗した。
