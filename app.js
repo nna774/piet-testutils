@@ -9,6 +9,7 @@ var Canvas = require('canvas')
   , tests = require('./tests');
 
 function main(image, info) {
+    'use strict';
     var width = info.width / config.codel;
     var height = info.height / config.codel;
     var canvas = new Canvas(width * config.codel, height * config.codel);
@@ -34,7 +35,7 @@ function main(image, info) {
     }
 
     var all = true;
-    for (c of tests.cases) {
+    for (var c of tests.cases) {
         var output = interpreter.run(code, c.input);
 	if (output !== c.expect) {
             console.log("test " + c.name + " failed!");
@@ -56,6 +57,7 @@ function main(image, info) {
 }
 
 function pick_color(ctx, x, y) {
+    'use strict';
     var img = ctx.getImageData(x, y, 1, 1);
     var data = img.data;
     return (data[0] << 16) + (data[1] << 8) + (data[2] << 0);

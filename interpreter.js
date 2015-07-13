@@ -44,6 +44,7 @@ var table = {
 };
 
 function eq(l1, l2) {
+    'use strict';
     if (l1.length !== l2.length) return false;
     for (var i = 0; i < l1.length; i++) {
 	if (l1[i] !== l2[i]) return false;
@@ -51,9 +52,16 @@ function eq(l1, l2) {
     return true;
 }
 
-function width(code) { return code[0].length; }
-function height(code) { return code.length; }
+function width(code) {
+    'use strict';
+    return code[0].length;
+}
+function height(code) {
+    'use strict';
+    return code.length;
+}
 function outside(code, codel) {
+    'use strict';
     var w = width(code);
     var h = height(code);
     return (0 > codel[0]
@@ -63,11 +71,13 @@ function outside(code, codel) {
 }
 
 function unmovable(code, codel) {
+    'use strict';
     if (outside(code, codel)) return true; // はみ出す
     return code[codel[0]][codel[1]] === 'black';
 }
 
 function execCommand(env, currentColor, nextColor) {
+    'use strict';
     if (currentColor === 'white' || nextColor === 'white') { return; /* nothing */ }
     var currentT = table[currentColor];
     var nextT = table[nextColor];
@@ -328,6 +338,7 @@ function execCommand(env, currentColor, nextColor) {
 }
 
 function findNextCodelImp(env, code) {
+    'use strict';
     var list = [];
     var color = code[env.x][env.y];
     var w = width(code);
@@ -519,6 +530,7 @@ function findNextCodelImp(env, code) {
 }
 
 function findNextCodel(env, code) {
+    'use strict';
     var point = findNextCodelImp(env, code);
 
     if (outside(code, point)) { return point; }
@@ -548,6 +560,7 @@ function findNextCodel(env, code) {
 }
 
 next = function(env, code) {
+    'use strict';
     var nextCodel = findNextCodel(env, code);
 
     // ここなんとかしたい。
@@ -609,6 +622,7 @@ next = function(env, code) {
 };
 
 function run(env, code) {
+    'use strict';
     var status = 'init';
     while (status !== 'stop') {
 	status = next(env, code);
@@ -631,6 +645,7 @@ module.exports = {
     next: next,
 
     run: function(code, input) {
+	'use strict';
 	var env = {};
 	env.x = env.y = env.dp = env.cc = env.area = 0;
 	env.stack = [];
