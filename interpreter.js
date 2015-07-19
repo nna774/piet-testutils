@@ -439,17 +439,17 @@ function findNextCodelImp(env, code) {
   switch (dp % 4) {
    case 0:
     var max = -1;
-    for (var p of list) max = Math.max(max, p[1])
+    for (var p of list) max = Math.max(max, p[1]);
     list = list.filter(function(p){ return p[1] == max; });
     if (list.length !== 1){
       // cc を考慮
       if (cc % 2 === 0) {
 	var min = Infinity;
-	for (var p of list) min = Math.min(min, p[0])
+	for (var p of list) min = Math.min(min, p[0]);
 	list = list.filter(function(p){ return p[0] == min; });
       } else {
 	var max = -1;
-	for (var p of list) max = Math.max(max, p[0])
+	for (var p of list) max = Math.max(max, p[0]);
 	list = list.filter(function(p){ return p[0] == max; });
       }
     }
@@ -458,17 +458,17 @@ function findNextCodelImp(env, code) {
     break;
    case 1:
     var max = -1;
-    for (var p of list) max = Math.max(max, p[0])
+    for (var p of list) max = Math.max(max, p[0]);
     list = list.filter(function(p){ return p[0] == max; });
     if (list.length !== 1) {
       // cc を考慮
       if (cc % 2 === 0) {
 	var max = -1;
-	for (var p of list) max = Math.max(max, p[1])
+	for (var p of list) max = Math.max(max, p[1]);
 	list = list.filter(function(p){ return p[1] == max; });
       } else {
 	var min = Infinity;
-	for (var p of list) min = Math.min(min, p[1])
+	for (var p of list) min = Math.min(min, p[1]);
 	list = list.filter(function(p){ return p[1] == min; });
       }
     }
@@ -477,18 +477,18 @@ function findNextCodelImp(env, code) {
     break;
    case 2:
     var min = Infinity;
-    for (var p of list) min = Math.min(min, p[1])
+    for (var p of list) min = Math.min(min, p[1]);
     list = list.filter(function(p){ return p[1] == min; });
     if (list.length !== 1) {
       // cc を考慮
       if (cc % 2 === 0) {
 	var max = -1;
-	    for (var p of list) max = Math.max(max, p[0])
+	for (var p of list) max = Math.max(max, p[0]);
 	list = list.filter(function(p){ return p[0] == max; });
       } else {
 	var min = Infinity;
-	for (var p of list) min = Math.min(min, p[0])
-	    list = list.filter(function(p){ return p[0] == min; });
+	for (var p of list) min = Math.min(min, p[0]);
+	list = list.filter(function(p){ return p[0] == min; });
       }
     }
     nextCodel = list[0];
@@ -496,17 +496,17 @@ function findNextCodelImp(env, code) {
     break;
    case 3:
     var min = Infinity;
-    for (var p of list) min = Math.min(min, p[0])
+    for (var p of list) min = Math.min(min, p[0]);
     list = list.filter(function(p){ return p[0] == min; });
     if (list.length !== 1) {
       // cc を考慮
       if (cc % 2 === 0) {
 	var max = -1;
-	for (var p of list) max = Math.max(max, p[1])
+	for (var p of list) max = Math.max(max, p[1]);
 	list = list.filter(function(p){ return p[1] == max; });
       } else {
 	var min = Infinity;
-	for (var p of list) min = Math.min(min, p[1])
+	for (var p of list) min = Math.min(min, p[1]);
 	list = list.filter(function(p){ return p[1] == min; });
       }
     }
