@@ -8,3 +8,5 @@ install:
   - sudo apt-get -qq install imagemagick libmagickwand-dev libmagickcore-dev libgif-dev
   - npm install
   - node app.js devide_by_2.10cs.11x4.png
+  - mv tests/gcd.js tests.js
+  - node app.js tests/gcd.png
