@@ -64,10 +64,10 @@ function outside(code, codel) {
   'use strict';
   var w = width(code);
   var h = height(code);
-  return (0 > codel[0]
-          || 0 > codel[1]
-          || codel[0] >= h
-          || codel[1] >= w);
+  return (0 > codel[0] ||
+          0 > codel[1] ||
+          codel[0] >= h ||
+          codel[1] >= w);
 }
 
 function unmovable(code, codel) {
