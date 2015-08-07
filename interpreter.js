@@ -293,7 +293,7 @@ function execCommand(env, currentColor, nextColor) {
 	      // console.log(res)
 	      // console.log(env.stack)
 	      for (var i = 0; i < res.length; ++i) {
-		env.stack.push(res[i]);
+		env.stack.push(res.shift());
 	      }
 	    }
 	    // console.log("post")
