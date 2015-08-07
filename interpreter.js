@@ -292,14 +292,16 @@ function execCommand(env, currentColor, nextColor) {
 	      }
 	      // console.log(res)
 	      // console.log(env.stack)
-	      for (var i = 0; i < res.length; ++i) {
-		env.stack.push(res[i]);
+              var l = res.length;
+	      for (var i = 0; i < l; ++i) {
+		env.stack.push(res.pop());
 	      }
 	    }
 	    // console.log("post")
 	    // console.log(env.stack)
 	  }
-	} else { // 2つ目が取れなかったので、スタックを戻す。		    env.stack.push(tmp1);
+	} else { // 2つ目が取れなかったので、スタックを戻す。
+	  env.stack.push(tmp1);
 	}
       } else {
 	// 一つも取れず失敗した。
