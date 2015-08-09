@@ -1,12 +1,14 @@
 // app.js
 
+var testfile = process.argv[3] || 'tests.js';
+
 var Canvas = require('canvas')
   , Image = Canvas.Image
   , fs = require('fs')
   , easyimg = require('easyimage')
   , config = require('./config')
   , interpreter = require('./interpreter')
-  , tests = require('./tests');
+  , tests = require('./' + testfile);
 
 function main(image, info) {
   'use strict';
