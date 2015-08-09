@@ -20,9 +20,14 @@ inputは、配列で指定してください。
 
 設定が完了したら`node app.js (テストしたい画像のファイル名)`で動かしてください。
 
+# tests/lisp-like-calc.png
+
+https://gist.github.com/1995hnagamin/408da3708bf279e2095d をnna774/piet-automataでコンパイルしたもの。
+
 # License
 LGPL3.0 or any later versionです。
 
 ## devide_by_2.10cs.11x4.png
 Created by Hideaki Nagamine(https://github.com/1995hnagamin)
 Creative Commons BY-SA 4.0
+
