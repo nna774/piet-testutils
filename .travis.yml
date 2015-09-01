@@ -10,5 +10,6 @@ install:
   - node app.js devide_by_2.10cs.11x4.png
   - node app.js tests/gcd.png tests/gcd.js
   - node app.js tests/swap.png tests/swap.js
+  - node app.js tests/mod.png tests/mod.js
   - sed -i -e "s/var codel = 10;/var codel = 1;/" config.js
   - node app.js tests/lisp-like-calc.png tests/lisp-like-calc.js
