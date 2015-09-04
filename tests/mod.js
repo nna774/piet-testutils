@@ -1,3 +1,5 @@
+var utils = require('../utils');
+
 var cases = [
   {
     name: '1 2',
@@ -37,6 +39,26 @@ var cases = [
   },
 
 ];
+
+function mod(n, m) {
+  if (n === 0 || m === 0) return 0;
+  var ans = n % m;
+  if (n > 0 && m > 0) return ans;
+  if ((n > 0 && m < 0) ||
+      (n < 0 && m > 0)) return ans + m;
+  return ans; // n and m lt 0
+}
+
+var gen = function() {
+  var mid = 10000;
+  var rand = (Math.random() * mid)|0;
+  rand -= (mid/2)|0;
+  return rand;
+};
+
+var randCases = utils.randomTest(gen, mod);
+
+cases = cases.concat(randCases);
 
 module.exports = {
   cases: cases,
