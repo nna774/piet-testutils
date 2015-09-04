@@ -26,13 +26,13 @@ var cases = [
   {
     name: '2 -1',
     desc: '2 -1',
-    input: "2 -1".split(''),
+    input: "2 -1".split(' '),
     expect: '0',
   },
   {
     name: '3 -2',
     desc: '3 -2',
-    input: "3 -2".split(''),
+    input: "3 -2".split(' '),
     expect: '-1',
   },
 
