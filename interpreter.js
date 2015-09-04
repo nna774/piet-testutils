@@ -104,7 +104,7 @@ function execCommand(env, currentColor, nextColor) {
     if (diffL === 0) { /* add */
       // console.log("add");
       var tmp1 = env.stack.pop();
-	  var tmp2 = env.stack.pop();
+      var tmp2 = env.stack.pop();
       if (tmp1 !== undefined) {
 	if (tmp2 !== undefined) {
 	  env.stack.push(tmp1 + tmp2);
@@ -117,7 +117,7 @@ function execCommand(env, currentColor, nextColor) {
     }
     if (diffL === 1) { /* substract */
       // console.log("sub");
-	  var tmp1 = env.stack.pop();
+      var tmp1 = env.stack.pop();
       var tmp2 = env.stack.pop();
       if (tmp1 !== undefined) {
 	if (tmp2 !== undefined) {
@@ -132,7 +132,7 @@ function execCommand(env, currentColor, nextColor) {
     if (diffL === 2) { /* multiply */
       // console.log("mul");
       var tmp1 = env.stack.pop();
-	  var tmp2 = env.stack.pop();
+      var tmp2 = env.stack.pop();
       if (tmp1 !== undefined) {
 	if (tmp2 !== undefined) {
 	  env.stack.push(tmp1 * tmp2);
@@ -148,7 +148,7 @@ function execCommand(env, currentColor, nextColor) {
     if (diffL === 0) { /* divide */
       // console.log("div");
       var tmp1 = env.stack.pop();
-	  var tmp2 = env.stack.pop();
+      var tmp2 = env.stack.pop();
       if (tmp1 !== undefined) {
 	if (tmp2 !== undefined) {
 	  if (tmp1 !== 0) {
@@ -168,7 +168,7 @@ function execCommand(env, currentColor, nextColor) {
       // console.log("mod");
       // console.log(env.stack);
       // console.log("#mod");
-	  var tmp1 = env.stack.pop();
+      var tmp1 = env.stack.pop();
       var tmp2 = env.stack.pop();
       if (tmp1 !== undefined) {
 	if (tmp2 !== undefined) {
@@ -203,8 +203,8 @@ function execCommand(env, currentColor, nextColor) {
     if (diffL === 0) { /* greater */
       // console.log("greater");
       // console.log(env.stack);
-	  var tmp1 = env.stack.pop();
-	  var tmp2 = env.stack.pop();
+      var tmp1 = env.stack.pop();
+      var tmp2 = env.stack.pop();
       if (tmp1 !== undefined) {
 	if (tmp2 !== undefined) {
 	  if (tmp2 > tmp1) {
@@ -317,7 +317,7 @@ function execCommand(env, currentColor, nextColor) {
       }
     }
     break;
-       case 5:
+   case 5:
     if (diffL === 0) { /* in(char) */
       var tmp = env.input.shift();
       var num = tmp.charCodeAt(0);
