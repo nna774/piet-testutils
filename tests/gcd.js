@@ -1,3 +1,5 @@
+var utils = require('../utils');
+
 var cases = [
   {
     name: '1 2',
@@ -45,30 +47,12 @@ function gcd(n, m) {
   return gcd(m, r);
 }
 
-for (var i = 0; i < 100; ++i) {
-  var rand1 = (Math.random() * 10000)|0;
-  rand1 += 1;
-  var rand2 = (Math.random() * 10000)|0;
-  rand2 += 1;
-  var ans = gcd(rand1, rand2);
+var gen = function() {
+  var rand = (Math.random() * 10000)|0;
+  return rand + 1;
+};
 
-  cases.push(
-    {
-      name: 'rand ' + String(rand1) + ' ' + String(rand2),
-      desc: 'rand',
-      input: [String(rand1), String(rand2)],
-      expect: String(ans),
-    }
-  );
-  cases.push(
-    {
-      name: 'rand ' + String(rand2) + ' ' + String(rand1),
-      desc: 'rand',
-      input: [String(rand2), String(rand1)],
-      expect: String(ans),
-    }
-  );
-}
+var randCases = utils.randomTest(gen, gcd);
 
 module.exports = {
   cases: cases,
