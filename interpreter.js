@@ -76,6 +76,12 @@ function unmovable(code, codel) {
   return code[codel[0]][codel[1]] === 'black';
 }
 
+function mod(n, m) {
+  if (n === 0 || m === 0 || n % m === 0) return 0;
+  if ((n > 0 && m > 0) || (n < 0 && m < 0)) return n % m;
+  return n % m + m;
+}
+
 function execCommand(env, currentColor, nextColor) {
   'use strict';
   if (currentColor === 'white' || nextColor === 'white') { return; /* nothing */ }
@@ -172,12 +178,7 @@ function execCommand(env, currentColor, nextColor) {
       var tmp2 = env.stack.pop();
       if (tmp1 !== undefined) {
 	if (tmp2 !== undefined) {
-	  if (tmp1 !== 0) {
-	    env.stack.push(tmp2 % tmp1);
-	  } else { // 失敗した。スタックを戻す。
-	    env.stack.push(tmp2);
-	    env.stack.push(tmp1);
-	  }
+	  env.stack.push(mod(tmp2, tmp1));
 	} else { // 2つ目が取れなかったので、スタックを戻す。
 	  env.stack.push(tmp1);
 	}
