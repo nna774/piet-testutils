@@ -1,6 +1,7 @@
 // app.js
 
 var testfile = process.argv[3] || 'tests.js';
+if (testfile[0] !== '/') testfile = './' + testfile;
 
 var Canvas = require('canvas')
   , Image = Canvas.Image
@@ -8,7 +9,7 @@ var Canvas = require('canvas')
   , easyimg = require('easyimage')
   , config = require('./config')
   , interpreter = require('./interpreter')
-  , tests = require('./' + testfile);
+  , tests = require(testfile);
 
 function main(image, info) {
   'use strict';
