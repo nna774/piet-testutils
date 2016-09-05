@@ -6,9 +6,10 @@ if (testfile[0] !== '/') testfile = `./${testfile}`;
 const Canvas = require('canvas');
 const fs = require('fs');
 const easyimg = require('easyimage');
-const config = require('./config');
 const interpreter = require('./interpreter');
+
 const tests = require(testfile);
+const config = require('./config');
 
 const Image = Canvas.Image;
 
