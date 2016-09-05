@@ -17,7 +17,7 @@ code(x,y)
   2,0...
 */
 
-var table = {
+let table = {
   'lred': [0, 0],
   'lyellow': [0, 1],
   'lgreen': [0, 2],
@@ -46,7 +46,7 @@ var table = {
 function eq(l1, l2) {
   'use strict';
   if (l1.length !== l2.length) return false;
-  for (var i = 0; i < l1.length; i++) {
+  for (let i = 0; i < l1.length; i++) {
     if (l1[i] !== l2[i]) return false;
   }
   return true;
@@ -62,8 +62,8 @@ function height(code) {
 }
 function outside(code, codel) {
   'use strict';
-  var w = width(code);
-  var h = height(code);
+  let w = width(code);
+  let h = height(code);
   return (0 > codel[0] ||
           0 > codel[1] ||
           codel[0] >= h ||
@@ -85,11 +85,11 @@ function mod(n, m) {
 function execCommand(env, currentColor, nextColor) {
   'use strict';
   if (currentColor === 'white' || nextColor === 'white') { return; /* nothing */ }
-  var currentT = table[currentColor];
-  var nextT = table[nextColor];
+  let currentT = table[currentColor];
+  let nextT = table[nextColor];
 
-  var diffL = (nextT[0] - currentT[0] + 3) % 3;
-  var diffH = (nextT[1] - currentT[1] +6) % 6;
+  let diffL = (nextT[0] - currentT[0] + 3) % 3;
+  let diffH = (nextT[1] - currentT[1] +6) % 6;
 
   switch (diffH) {
     case 0:
@@ -103,8 +103,8 @@ function execCommand(env, currentColor, nextColor) {
       break;
     case 1:
       if (diffL === 0) { /* add */
-        var tmp1 = env.stack.pop();
-        var tmp2 = env.stack.pop();
+        let tmp1 = env.stack.pop();
+        let tmp2 = env.stack.pop();
         if (tmp1 !== undefined) {
           if (tmp2 !== undefined) {
             env.stack.push(tmp1 + tmp2);
@@ -116,8 +116,8 @@ function execCommand(env, currentColor, nextColor) {
         }
       }
       if (diffL === 1) { /* substract */
-        var tmp1 = env.stack.pop();
-        var tmp2 = env.stack.pop();
+        let tmp1 = env.stack.pop();
+        let tmp2 = env.stack.pop();
         if (tmp1 !== undefined) {
           if (tmp2 !== undefined) {
             env.stack.push(tmp2 - tmp1);
@@ -129,8 +129,8 @@ function execCommand(env, currentColor, nextColor) {
         }
       }
       if (diffL === 2) { /* multiply */
-        var tmp1 = env.stack.pop();
-        var tmp2 = env.stack.pop();
+        let tmp1 = env.stack.pop();
+        let tmp2 = env.stack.pop();
         if (tmp1 !== undefined) {
           if (tmp2 !== undefined) {
             env.stack.push(tmp1 * tmp2);
@@ -144,8 +144,8 @@ function execCommand(env, currentColor, nextColor) {
       break;
     case 2:
       if (diffL === 0) { /* divide */
-        var tmp1 = env.stack.pop();
-        var tmp2 = env.stack.pop();
+        let tmp1 = env.stack.pop();
+        let tmp2 = env.stack.pop();
         if (tmp1 !== undefined) {
           if (tmp2 !== undefined) {
             if (tmp1 !== 0) {
@@ -162,8 +162,8 @@ function execCommand(env, currentColor, nextColor) {
         }
       }
       if (diffL === 1) { /* mod */
-        var tmp1 = env.stack.pop();
-        var tmp2 = env.stack.pop();
+        let tmp1 = env.stack.pop();
+        let tmp2 = env.stack.pop();
         if (tmp1 !== undefined) {
           if (tmp2 !== undefined) {
             env.stack.push(mod(tmp2, tmp1));
@@ -175,7 +175,7 @@ function execCommand(env, currentColor, nextColor) {
         }
       }
       if (diffL === 2) { /* not */
-        var tmp = env.stack.pop();
+        let tmp = env.stack.pop();
         if (tmp !== undefined) {
           if (tmp === 0) {
             env.stack.push(1);
@@ -189,8 +189,8 @@ function execCommand(env, currentColor, nextColor) {
       break;
     case 3:
       if (diffL === 0) { /* greater */
-        var tmp1 = env.stack.pop();
-        var tmp2 = env.stack.pop();
+        let tmp1 = env.stack.pop();
+        let tmp2 = env.stack.pop();
         if (tmp1 !== undefined) {
           if (tmp2 !== undefined) {
             if (tmp2 > tmp1) {
@@ -206,7 +206,7 @@ function execCommand(env, currentColor, nextColor) {
         }
       }
       if (diffL === 1) { /* pointer */
-        var tmp = env.stack.pop();
+        let tmp = env.stack.pop();
         if (tmp !== undefined) {
           env.dp += tmp;
         } else {
@@ -214,7 +214,7 @@ function execCommand(env, currentColor, nextColor) {
         }
       }
       if (diffL === 2) { /* switch */
-        var tmp = env.stack.pop();
+        let tmp = env.stack.pop();
         if (tmp !== undefined) {
           env.cc += tmp;
         } else {
@@ -224,7 +224,7 @@ function execCommand(env, currentColor, nextColor) {
       break;
     case 4:
       if (diffL === 0) { /* duplicate */
-        var tmp = env.stack.pop();
+        let tmp = env.stack.pop();
         if (tmp !== undefined) {
           env.stack.push(tmp);
           env.stack.push(tmp);
@@ -234,17 +234,17 @@ function execCommand(env, currentColor, nextColor) {
       }
       if (diffL === 1) { /* roll */
         // めんどくさい
-        var tmp1 = env.stack.pop();
-        var tmp2 = env.stack.pop();
+        let tmp1 = env.stack.pop();
+        let tmp2 = env.stack.pop();
         if (tmp1 !== undefined) {
           if (tmp2 !== undefined) {
             if (tmp2 < 0) { // 深さが負のロールは失敗する。
               env.stack.push(tmp2);
               env.stack.push(tmp1);
             } else { // ここ
-              var fail = false;
-              var view = new Array(tmp2);
-              for (var i = 0; i < tmp2; ++i) {
+              let fail = false;
+              let view = new Array(tmp2);
+              for (let i = 0; i < tmp2; ++i) {
                 view[i] = env.stack.pop();
               }
               for (i = tmp2; i > 0; --i) { // 失敗してないかな？
@@ -253,19 +253,19 @@ function execCommand(env, currentColor, nextColor) {
                 }
               }
               if (i !== 0) { // 失敗してた。
-                var last = i;
+                let last = i;
                 fail = true;
                 for (i = 0; i < last; ++i) { // 巻き戻す。
                   env.stack.push(view[i]);
                 }
               }
               if (!fail) {
-                var res = new Array(tmp2);
-                for (var i = 0; i < res.length; ++i) {
+                let res = new Array(tmp2);
+                for (let i = 0; i < res.length; ++i) {
                   res[i] = view[(i+tmp1)%tmp2];
                 }
-                var l = res.length;
-                for (var i = 0; i < l; ++i) {
+                let l = res.length;
+                for (let i = 0; i < l; ++i) {
                   env.stack.push(res.pop());
                 }
               }
@@ -278,8 +278,8 @@ function execCommand(env, currentColor, nextColor) {
         }
       }
       if (diffL === 2) { /* in(num) */
-        var tmp = env.input.shift();
-        var num = parseInt(tmp, 10);
+        let tmp = env.input.shift();
+        let num = parseInt(tmp, 10);
         if (!Number.isNaN(num)) {
           env.stack.push(num);
         } else {
@@ -289,18 +289,18 @@ function execCommand(env, currentColor, nextColor) {
       break;
     case 5:
       if (diffL === 0) { /* in(char) */
-        var tmp = env.input.shift();
-        var num = tmp.charCodeAt(0);
+        let tmp = env.input.shift();
+        let num = tmp.charCodeAt(0);
         env.stack.push(num);
       }
       if (diffL === 1) { /* out(num) */
-        var tmp = env.stack.pop();
+        let tmp = env.stack.pop();
         if (tmp !== undefined) {
           env.output += tmp.toString();
         }
       }
       if (diffL === 2) { /* out(char) */
-        var tmp = env.stack.pop();
+        let tmp = env.stack.pop();
         if (tmp !== undefined) {
           env.output += String.fromCharCode(tmp);
         }
@@ -313,33 +313,33 @@ function execCommand(env, currentColor, nextColor) {
 
 function findNextCodelImp(env, code) {
   'use strict';
-  var list = [];
-  var color = code[env.x][env.y];
-  var w = width(code);
-  var h = height(code);
-  var dp = env.dp, cc = env.cc;
+  let list = [];
+  let color = code[env.x][env.y];
+  let w = width(code);
+  let h = height(code);
+  let dp = env.dp, cc = env.cc;
 
   // 同色の探索
-  var que = [[env.x, env.y]];
-  var done = [];
+  let que = [[env.x, env.y]];
+  let done = [];
   while (que.length > 0) {
-    var point = que.shift();
+    let point = que.shift();
     done.push(point);
     if (code[point[0]][point[1]] !== color) {
       continue;
     }
     list.push(point);
     if (point[0] !== 0) {
-      var newp = [point[0] - 1, point[1]];
-      var ins = true;
-      for (var p of done) {
+      let newp = [point[0] - 1, point[1]];
+      let ins = true;
+      for (let p of done) {
         if (eq(p, newp)) {
           ins = false;
           break;
         }
       }
       if (ins) {
-        for (var p of que) {
+        for (let p of que) {
           if (eq(p, newp)) {
             ins = false;
             break;
@@ -349,16 +349,16 @@ function findNextCodelImp(env, code) {
       if (ins) que.push(newp);
     }
     if (point[1] !== 0) {
-      var newp = [point[0], point[1] - 1];
-      var ins = true;
-      for (var p of done) {
+      let newp = [point[0], point[1] - 1];
+      let ins = true;
+      for (let p of done) {
         if (eq(p, newp)) {
           ins = false;
           break;
         }
       }
       if (ins) {
-        for (var p of que) {
+        for (let p of que) {
           if (eq(p, newp)) {
             ins = false;
             break;
@@ -368,16 +368,16 @@ function findNextCodelImp(env, code) {
       if (ins) que.push(newp);
     }
     if (point[0] !== h - 1) {
-      var newp = [point[0] + 1, point[1]];
-      var ins = true;
-      for (var p of done) {
+      let newp = [point[0] + 1, point[1]];
+      let ins = true;
+      for (let p of done) {
         if (eq(p, newp)) {
           ins = false;
           break;
         }
       }
       if (ins) {
-        for (var p of que) {
+        for (let p of que) {
           if (eq(p, newp)) {
             ins = false;
             break;
@@ -387,16 +387,16 @@ function findNextCodelImp(env, code) {
       if (ins) que.push(newp);
     }
     if (point[1] !== w - 1) {
-      var newp = [point[0], point[1] + 1];
-      var ins = true;
-      for (var p of done) {
+      let newp = [point[0], point[1] + 1];
+      let ins = true;
+      for (let p of done) {
         if (eq(p, newp)) {
           ins = false;
           break;
         }
       }
       if (ins) {
-        for (var p of que) {
+        for (let p of que) {
           if (eq(p, newp)) {
             ins = false;
             break;
@@ -407,23 +407,23 @@ function findNextCodelImp(env, code) {
     }
   }
 
-  var area = list.length;
+  let area = list.length;
 
-  var nextCodel = [-1, -1];
+  let nextCodel = [-1, -1];
   switch (dp % 4) {
     case 0:
-      var max = -1;
-      for (var p of list) max = Math.max(max, p[1]);
+      let max = -1;
+      for (let p of list) max = Math.max(max, p[1]);
       list = list.filter(function(p){ return p[1] == max; });
       if (list.length !== 1){
         // cc を考慮
         if (cc % 2 === 0) {
-          var min = Infinity;
-          for (var p of list) min = Math.min(min, p[0]);
+          let min = Infinity;
+          for (let p of list) min = Math.min(min, p[0]);
           list = list.filter(function(p){ return p[0] == min; });
         } else {
-          var max = -1;
-          for (var p of list) max = Math.max(max, p[0]);
+          let max = -1;
+          for (let p of list) max = Math.max(max, p[0]);
           list = list.filter(function(p){ return p[0] == max; });
         }
       }
@@ -431,18 +431,18 @@ function findNextCodelImp(env, code) {
       nextCodel[1] += 1;
       break;
     case 1:
-      var max = -1;
-      for (var p of list) max = Math.max(max, p[0]);
+      let max = -1;
+      for (let p of list) max = Math.max(max, p[0]);
       list = list.filter(function(p){ return p[0] == max; });
       if (list.length !== 1) {
         // cc を考慮
         if (cc % 2 === 0) {
-          var max = -1;
-          for (var p of list) max = Math.max(max, p[1]);
+          let max = -1;
+          for (let p of list) max = Math.max(max, p[1]);
           list = list.filter(function(p){ return p[1] == max; });
         } else {
-          var min = Infinity;
-          for (var p of list) min = Math.min(min, p[1]);
+          let min = Infinity;
+          for (let p of list) min = Math.min(min, p[1]);
           list = list.filter(function(p){ return p[1] == min; });
         }
       }
@@ -450,18 +450,18 @@ function findNextCodelImp(env, code) {
       nextCodel[0] += 1;
       break;
     case 2:
-      var min = Infinity;
-      for (var p of list) min = Math.min(min, p[1]);
+      let min = Infinity;
+      for (let p of list) min = Math.min(min, p[1]);
       list = list.filter(function(p){ return p[1] == min; });
       if (list.length !== 1) {
         // cc を考慮
         if (cc % 2 === 0) {
-          var max = -1;
-          for (var p of list) max = Math.max(max, p[0]);
+          let max = -1;
+          for (let p of list) max = Math.max(max, p[0]);
           list = list.filter(function(p){ return p[0] == max; });
         } else {
-          var min = Infinity;
-          for (var p of list) min = Math.min(min, p[0]);
+          let min = Infinity;
+          for (let p of list) min = Math.min(min, p[0]);
           list = list.filter(function(p){ return p[0] == min; });
         }
       }
@@ -469,18 +469,18 @@ function findNextCodelImp(env, code) {
       nextCodel[1] -= 1;
       break;
     case 3:
-      var min = Infinity;
-      for (var p of list) min = Math.min(min, p[0]);
+      let min = Infinity;
+      for (let p of list) min = Math.min(min, p[0]);
       list = list.filter(function(p){ return p[0] == min; });
       if (list.length !== 1) {
         // cc を考慮
         if (cc % 2 === 0) {
-          var max = -1;
-          for (var p of list) max = Math.max(max, p[1]);
+          let max = -1;
+          for (let p of list) max = Math.max(max, p[1]);
           list = list.filter(function(p){ return p[1] == max; });
         } else {
-          var min = Infinity;
-          for (var p of list) min = Math.min(min, p[1]);
+          let min = Infinity;
+          for (let p of list) min = Math.min(min, p[1]);
           list = list.filter(function(p){ return p[1] == min; });
         }
       }
@@ -505,10 +505,10 @@ function findNextCodelImp(env, code) {
 
 function findNextCodel(env, code) {
   'use strict';
-  var point = findNextCodelImp(env, code);
+  let point = findNextCodelImp(env, code);
 
   if (outside(code, point)) { return point; }
-  var color = code[point[0]][point[1]];
+  let color = code[point[0]][point[1]];
 
   point['exec'] = true;
   if (color === 'white') {
@@ -535,7 +535,7 @@ function findNextCodel(env, code) {
 
 next = function(env, code) {
   'use strict';
-  var nextCodel = findNextCodel(env, code);
+  let nextCodel = findNextCodel(env, code);
 
   // ここなんとかしたい。
   if (unmovable(code, nextCodel)) {
@@ -575,8 +575,8 @@ next = function(env, code) {
     }
   }
 
-  var currentColor = code[env.x][env.y];
-  var nextColor = code[nextCodel[0]][nextCodel[1]];
+  let currentColor = code[env.x][env.y];
+  let nextColor = code[nextCodel[0]][nextCodel[1]];
 
   // console.log(nextCodel)
   // console.log("current:" + currentColor + ", next: " + nextColor)
@@ -597,14 +597,14 @@ next = function(env, code) {
 
 function run(env, code) {
   'use strict';
-  var status = 'init';
+  let status = 'init';
   while (status !== 'stop') {
     status = next(env, code);
   }
   return env.output;
 }
 
-var defaultEnv = {
+let defaultEnv = {
   x: 0,
   y: 0,
   dp: 0,
@@ -620,7 +620,7 @@ module.exports = {
 
   run: function(code, input) {
     'use strict';
-    var env = {};
+    let env = {};
     env.x = env.y = env.dp = env.cc = env.area = 0;
     env.stack = [];
     env.input = input;
