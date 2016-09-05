@@ -44,7 +44,6 @@ const table = {
 };
 
 function eq(l1, l2) {
-  'use strict';
   if (l1.length !== l2.length) return false;
   for (let i = 0; i < l1.length; i++) {
     if (l1[i] !== l2[i]) return false;
@@ -53,15 +52,12 @@ function eq(l1, l2) {
 }
 
 function width(code) {
-  'use strict';
   return code[0].length;
 }
 function height(code) {
-  'use strict';
   return code.length;
 }
 function outside(code, codel) {
-  'use strict';
   const w = width(code);
   const h = height(code);
   return (0 > codel[0] ||
@@ -71,7 +67,6 @@ function outside(code, codel) {
 }
 
 function unmovable(code, codel) {
-  'use strict';
   if (outside(code, codel)) return true; // はみ出す
   return code[codel[0]][codel[1]] === 'black';
 }
@@ -83,7 +78,6 @@ function mod(n, m) {
 }
 
 function execCommand(env, currentColor, nextColor) {
-  'use strict';
   if (currentColor === 'white' || nextColor === 'white') { return; /* nothing */ }
   const currentT = table[currentColor];
   const nextT = table[nextColor];
@@ -313,7 +307,6 @@ function execCommand(env, currentColor, nextColor) {
 }
 
 function findNextCodelImp(env, code) {
-  'use strict';
   let list = [];
   const color = code[env.x][env.y];
   const w = width(code);
@@ -510,7 +503,6 @@ function findNextCodelImp(env, code) {
 }
 
 function findNextCodel(env, code) {
-  'use strict';
   const point = findNextCodelImp(env, code);
 
   if (outside(code, point)) { return point; }
@@ -542,7 +534,6 @@ function findNextCodel(env, code) {
 }
 
 function next(env, code) {
-  'use strict';
   let nextCodel = findNextCodel(env, code);
 
   // ここなんとかしたい。
@@ -604,7 +595,6 @@ function next(env, code) {
 }
 
 function run(env, code) {
-  'use strict';
   let status = 'init';
   while (status !== 'stop') {
     status = next(env, code);
@@ -616,7 +606,6 @@ module.exports = {
   next,
 
   run: (code, input) => {
-    'use strict';
     const env = {};
     env.x = env.y = env.dp = env.cc = env.area = 0;
     env.stack = [];
