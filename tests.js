@@ -1,6 +1,6 @@
 // tests.js
 
-var cases = [
+const cases = [
   {
     name: '6',
     desc: '6から始まる',
@@ -22,5 +22,5 @@ var cases = [
 ];
 
 module.exports = {
-  cases: cases,
+  cases,
 };
