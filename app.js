@@ -68,7 +68,7 @@ function pick_color(ctx, x, y) {
 
 if (process.argv.length < 3) {
   console.log('missing argument.');
-  return;
+  process.exit(-1);
 }
 
 var filename = process.argv[2];
