@@ -60,8 +60,8 @@ function height(code) {
 function outside(code, codel) {
   const w = width(code);
   const h = height(code);
-  return (0 > codel[0] ||
-          0 > codel[1] ||
+  return (codel[0] < 0 ||
+          codel[1] < 0 ||
           codel[0] >= h ||
           codel[1] >= w);
 }
