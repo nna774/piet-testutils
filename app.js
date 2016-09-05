@@ -30,10 +30,10 @@ function main(image, info) {
     for(let j = 0; j < width; ++j) {
       const color = pick_color(ctx, j * config.codel, i * config.codel);
       for (const k in config.colors) {
-	if (color === config.colors[k]) {
-	  code[i][j] = k;
-	  break;
-	}
+        if (color === config.colors[k]) {
+          code[i][j] = k;
+          break;
+        }
       }
     }
   }
@@ -74,15 +74,13 @@ if (process.argv.length < 3) {
 
 const filename = process.argv[2];
 
-easyimg.info(filename).then(
-  function(info){
-    fs.readFile(filename, function(err, data) {
-      if (err) throw err;
-      const image = new Image();
-      image.src = data;
-      main(image, info);
-    });
-  },  function (err) {
-    console.log(err);
-  }
-);
+easyimg.info(filename).then(function(info){
+  fs.readFile(filename, function(err, data) {
+    if (err) throw err;
+    const image = new Image();
+    image.src = data;
+    main(image, info);
+  });
+}, function (err) {
+  console.log(err);
+});
