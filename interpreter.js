@@ -18,29 +18,29 @@ code(x,y)
 */
 
 let table = {
-  'lred': [0, 0],
-  'lyellow': [0, 1],
-  'lgreen': [0, 2],
-  'lcyan': [0, 3],
-  'lblue': [0, 4],
-  'lmagenta': [0, 5],
+  lred: [0, 0],
+  lyellow: [0, 1],
+  lgreen: [0, 2],
+  lcyan: [0, 3],
+  lblue: [0, 4],
+  lmagenta: [0, 5],
 
-  'red': [1, 0],
-  'yellow': [1, 1],
-  'green': [1, 2],
-  'cyan': [1, 3],
-  'blue': [1, 4],
-  'magenta': [1, 5],
+  red: [1, 0],
+  yellow: [1, 1],
+  green: [1, 2],
+  cyan: [1, 3],
+  blue: [1, 4],
+  magenta: [1, 5],
 
-  'dred': [2, 0],
-  'dyellow': [2, 1],
-  'dgreen': [2, 2],
-  'dcyan': [2, 3],
-  'dblue': [2, 4],
-  'dmagenta': [2, 5],
+  dred: [2, 0],
+  dyellow: [2, 1],
+  dgreen: [2, 2],
+  dcyan: [2, 3],
+  dblue: [2, 4],
+  dmagenta: [2, 5],
 
-  'white': [-1, 0],
-  'black': [-1, -1],
+  white: [-1, 0],
+  black: [-1, -1],
 };
 
 function eq(l1, l2) {
