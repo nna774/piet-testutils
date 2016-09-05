@@ -413,7 +413,7 @@ function findNextCodelImp(env, code) {
 
   let nextCodel = [-1, -1];
   switch (dp % 4) {
-    case 0:
+    case 0: {
       let max = -1;
       for (const p of list) max = Math.max(max, p[1]);
       list = list.filter(function(p){ return p[1] === max; });
@@ -432,7 +432,8 @@ function findNextCodelImp(env, code) {
       nextCodel = list[0];
       nextCodel[1] += 1;
       break;
-    case 1:
+    }
+    case 1: {
       let max = -1;
       for (const p of list) max = Math.max(max, p[0]);
       list = list.filter(function(p){ return p[0] === max; });
@@ -451,7 +452,8 @@ function findNextCodelImp(env, code) {
       nextCodel = list[0];
       nextCodel[0] += 1;
       break;
-    case 2:
+    }
+    case 2: {
       let min = Infinity;
       for (const p of list) min = Math.min(min, p[1]);
       list = list.filter(function(p){ return p[1] === min; });
@@ -470,7 +472,8 @@ function findNextCodelImp(env, code) {
       nextCodel = list[0];
       nextCodel[1] -= 1;
       break;
-    case 3:
+    }
+    case 3: {
       let min = Infinity;
       for (const p of list) min = Math.min(min, p[0]);
       list = list.filter(function(p){ return p[0] === min; });
@@ -489,8 +492,10 @@ function findNextCodelImp(env, code) {
       nextCodel = list[0];
       nextCodel[0] -= 1;
       break;
-    default:
+    }
+    default: {
       // never come
+    }
   }
   // process.stdout.write("findNext: ");
   // process.stdout.write(nextCodel.toString());
