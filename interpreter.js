@@ -1,7 +1,7 @@
 // interpreter.js
 
 /*
-dp 
+dp
   0, 4, 8...: 右
   1, 5, 9...: 下
   2, 6, 10..: 左
@@ -416,17 +416,17 @@ function findNextCodelImp(env, code) {
     case 0: {
       let max = -1;
       for (const p of list) max = Math.max(max, p[1]);
-      list = list.filter(function(p){ return p[1] === max; });
+      list = list.filter((p) => p[1] === max);
       if (list.length !== 1){
         // cc を考慮
         if (cc % 2 === 0) {
           let min = Infinity;
           for (const p of list) min = Math.min(min, p[0]);
-          list = list.filter(function(p){ return p[0] === min; });
+          list = list.filter((p) => p[0] === min);
         } else {
           let max = -1;
           for (const p of list) max = Math.max(max, p[0]);
-          list = list.filter(function(p){ return p[0] === max; });
+          list = list.filter((p) => p[0] === max);
         }
       }
       nextCodel = list[0];
@@ -436,17 +436,17 @@ function findNextCodelImp(env, code) {
     case 1: {
       let max = -1;
       for (const p of list) max = Math.max(max, p[0]);
-      list = list.filter(function(p){ return p[0] === max; });
+      list = list.filter((p) => p[0] === max);
       if (list.length !== 1) {
         // cc を考慮
         if (cc % 2 === 0) {
           let max = -1;
           for (const p of list) max = Math.max(max, p[1]);
-          list = list.filter(function(p){ return p[1] === max; });
+          list = list.filter((p) => p[1] === max);
         } else {
           let min = Infinity;
           for (const p of list) min = Math.min(min, p[1]);
-          list = list.filter(function(p){ return p[1] === min; });
+          list = list.filter((p) => p[1] === min);
         }
       }
       nextCodel = list[0];
@@ -456,17 +456,17 @@ function findNextCodelImp(env, code) {
     case 2: {
       let min = Infinity;
       for (const p of list) min = Math.min(min, p[1]);
-      list = list.filter(function(p){ return p[1] === min; });
+      list = list.filter((p) => p[1] === min);
       if (list.length !== 1) {
         // cc を考慮
         if (cc % 2 === 0) {
           let max = -1;
           for (const p of list) max = Math.max(max, p[0]);
-          list = list.filter(function(p){ return p[0] === max; });
+          list = list.filter((p) => p[0] === max);
         } else {
           let min = Infinity;
           for (const p of list) min = Math.min(min, p[0]);
-          list = list.filter(function(p){ return p[0] === min; });
+          list = list.filter((p) => p[0] === min);
         }
       }
       nextCodel = list[0];
@@ -476,17 +476,17 @@ function findNextCodelImp(env, code) {
     case 3: {
       let min = Infinity;
       for (const p of list) min = Math.min(min, p[0]);
-      list = list.filter(function(p){ return p[0] === min; });
+      list = list.filter((p) => p[0] === min);
       if (list.length !== 1) {
         // cc を考慮
         if (cc % 2 === 0) {
           let max = -1;
           for (const p of list) max = Math.max(max, p[1]);
-          list = list.filter(function(p){ return p[1] === max; });
+          list = list.filter((p) => p[1] === max);
         } else {
           let min = Infinity;
           for (const p of list) min = Math.min(min, p[1]);
-          list = list.filter(function(p){ return p[1] === min; });
+          list = list.filter((p) => p[1] === min);
         }
       }
       nextCodel = list[0];
@@ -517,9 +517,9 @@ function findNextCodel(env, code) {
   if (outside(code, point)) { return point; }
   const color = code[point[0]][point[1]];
 
-  point['exec'] = true;
+  point.exec = true;
   if (color === 'white') {
-    point['exec'] = false;
+    point.exec = false;
     while (!outside(code, point) && code[point[0]][point[1]] === 'white') { // まっすぐ進む
       switch (env.dp % 4) {
         case 0:
@@ -593,7 +593,7 @@ function next(env, code) {
   // process.stdout.write(", cc: " + env.cc.toString() + "\n");
 
   env.area = nextCodel[2];
-  if (nextCodel['exec']) {
+  if (nextCodel.exec) {
     execCommand(env, currentColor, nextColor);
   }
   env.x = nextCodel[0];
