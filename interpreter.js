@@ -79,7 +79,7 @@ function unmovable(code, codel) {
 function mod(n, m) {
   if (n === 0 || m === 0 || n % m === 0) return 0;
   if ((n > 0 && m > 0) || (n < 0 && m < 0)) return n % m;
-  return n % m + m;
+  return (n % m) + m;
 }
 
 function execCommand(env, currentColor, nextColor) {
@@ -262,11 +262,11 @@ function execCommand(env, currentColor, nextColor) {
               }
               if (!fail) {
                 const res = new Array(tmp2);
-                for (let i = 0; i < res.length; ++i) {
+                for (i = 0; i < res.length; ++i) {
                   res[i] = view[(i + tmp1) % tmp2];
                 }
                 const l = res.length;
-                for (let i = 0; i < l; ++i) {
+                for (i = 0; i < l; ++i) {
                   env.stack.push(res.pop());
                 }
               }
@@ -327,85 +327,84 @@ function findNextCodelImp(env, code) {
   while (que.length > 0) {
     const point = que.shift();
     done.push(point);
-    if (code[point[0]][point[1]] !== color) {
-      continue;
-    }
-    list.push(point);
-    if (point[0] !== 0) {
-      const newp = [point[0] - 1, point[1]];
-      let ins = true;
-      for (const p of done) {
-        if (eq(p, newp)) {
-          ins = false;
-          break;
-        }
-      }
-      if (ins) {
-        for (const p of que) {
+    if (code[point[0]][point[1]] === color) {
+      list.push(point);
+      if (point[0] !== 0) {
+        const newp = [point[0] - 1, point[1]];
+        let ins = true;
+        for (const p of done) {
           if (eq(p, newp)) {
             ins = false;
             break;
           }
         }
-      }
-      if (ins) que.push(newp);
-    }
-    if (point[1] !== 0) {
-      const newp = [point[0], point[1] - 1];
-      let ins = true;
-      for (const p of done) {
-        if (eq(p, newp)) {
-          ins = false;
-          break;
+        if (ins) {
+          for (const p of que) {
+            if (eq(p, newp)) {
+              ins = false;
+              break;
+            }
+          }
         }
+        if (ins) que.push(newp);
       }
-      if (ins) {
-        for (const p of que) {
+      if (point[1] !== 0) {
+        const newp = [point[0], point[1] - 1];
+        let ins = true;
+        for (const p of done) {
           if (eq(p, newp)) {
             ins = false;
             break;
           }
         }
-      }
-      if (ins) que.push(newp);
-    }
-    if (point[0] !== h - 1) {
-      const newp = [point[0] + 1, point[1]];
-      let ins = true;
-      for (const p of done) {
-        if (eq(p, newp)) {
-          ins = false;
-          break;
+        if (ins) {
+          for (const p of que) {
+            if (eq(p, newp)) {
+              ins = false;
+              break;
+            }
+          }
         }
+        if (ins) que.push(newp);
       }
-      if (ins) {
-        for (const p of que) {
+      if (point[0] !== h - 1) {
+        const newp = [point[0] + 1, point[1]];
+        let ins = true;
+        for (const p of done) {
           if (eq(p, newp)) {
             ins = false;
             break;
           }
         }
-      }
-      if (ins) que.push(newp);
-    }
-    if (point[1] !== w - 1) {
-      const newp = [point[0], point[1] + 1];
-      let ins = true;
-      for (const p of done) {
-        if (eq(p, newp)) {
-          ins = false;
-          break;
+        if (ins) {
+          for (const p of que) {
+            if (eq(p, newp)) {
+              ins = false;
+              break;
+            }
+          }
         }
+        if (ins) que.push(newp);
       }
-      if (ins) {
-        for (const p of que) {
+      if (point[1] !== w - 1) {
+        const newp = [point[0], point[1] + 1];
+        let ins = true;
+        for (const p of done) {
           if (eq(p, newp)) {
             ins = false;
             break;
           }
         }
+        if (ins) {
+          for (const p of que) {
+            if (eq(p, newp)) {
+              ins = false;
+              break;
+            }
+          }
+        }
+        if (ins) que.push(newp);
       }
-      if (ins) que.push(newp);
     }
   }
 
@@ -424,7 +423,7 @@ function findNextCodelImp(env, code) {
           for (const p of list) min = Math.min(min, p[0]);
           list = list.filter((p) => p[0] === min);
         } else {
-          let max = -1;
+          max = -1;
           for (const p of list) max = Math.max(max, p[0]);
           list = list.filter((p) => p[0] === max);
         }
@@ -440,7 +439,7 @@ function findNextCodelImp(env, code) {
       if (list.length !== 1) {
         // cc を考慮
         if (cc % 2 === 0) {
-          let max = -1;
+          max = -1;
           for (const p of list) max = Math.max(max, p[1]);
           list = list.filter((p) => p[1] === max);
         } else {
@@ -464,7 +463,7 @@ function findNextCodelImp(env, code) {
           for (const p of list) max = Math.max(max, p[0]);
           list = list.filter((p) => p[0] === max);
         } else {
-          let min = Infinity;
+          min = Infinity;
           for (const p of list) min = Math.min(min, p[0]);
           list = list.filter((p) => p[0] === min);
         }
@@ -484,7 +483,7 @@ function findNextCodelImp(env, code) {
           for (const p of list) max = Math.max(max, p[1]);
           list = list.filter((p) => p[1] === max);
         } else {
-          let min = Infinity;
+          min = Infinity;
           for (const p of list) min = Math.min(min, p[1]);
           list = list.filter((p) => p[1] === min);
         }
@@ -534,6 +533,8 @@ function findNextCodel(env, code) {
         case 3:
           point[0]--;
           break;
+        default:
+          // never come!
       }
     }
   }
