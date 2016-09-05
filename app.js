@@ -35,7 +35,7 @@ function main(image, info) {
   for (let i = 0; i < height; ++i) {
     for (let j = 0; j < width; ++j) {
       const color = pickColor(ctx, j * config.codel, i * config.codel);
-      for (const k in config.colors) {
+      for (const k of Object.keys(config.colors)) {
         if (color === config.colors[k]) {
           code[i][j] = k;
           break;
