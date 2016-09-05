@@ -535,7 +535,7 @@ function findNextCodel(env, code) {
   return point;
 }
 
-next = function(env, code) {
+function next(env, code) {
   'use strict';
   let nextCodel = findNextCodel(env, code);
 
