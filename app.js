@@ -13,6 +13,13 @@ const config = require('./config');
 
 const Image = Canvas.Image;
 
+function pickColor(ctx, x, y) {
+  'use strict';
+  const img = ctx.getImageData(x, y, 1, 1);
+  const data = img.data;
+  return (data[0] << 16) + (data[1] << 8) + (data[2] << 0);
+}
+
 function main(image, info) {
   'use strict';
   const width = info.width / config.codel;
@@ -29,7 +36,7 @@ function main(image, info) {
   // 確かに効率は悪い、しかし、それが問題となるほどの大きさのPietを描けるのでしょうか(余白作ればいいだけだから描けそうだ)。
   for (let i = 0; i < height; ++i) {
     for (let j = 0; j < width; ++j) {
-      const color = pick_color(ctx, j * config.codel, i * config.codel);
+      const color = pickColor(ctx, j * config.codel, i * config.codel);
       for (const k in config.colors) {
         if (color === config.colors[k]) {
           code[i][j] = k;
@@ -59,13 +66,6 @@ function main(image, info) {
     console.log('some tests failed...');
     process.exit(1);
   }
-}
-
-function pick_color(ctx, x, y) {
-  'use strict';
-  const img = ctx.getImageData(x, y, 1, 1);
-  const data = img.data;
-  return (data[0] << 16) + (data[1] << 8) + (data[2] << 0);
 }
 
 if (process.argv.length < 3) {
