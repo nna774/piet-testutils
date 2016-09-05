@@ -92,251 +92,222 @@ function execCommand(env, currentColor, nextColor) {
   var diffH = (nextT[1] - currentT[1] +6) % 6;
 
   switch (diffH) {
-   case 0:
-    if (diffL === 0) { /* none */ }
-    if (diffL === 1) { /* push */
-      // console.log("push");
-      // console.log(env.stack);
-      env.stack.push(env.area);
-      // console.log(env.stack);
-      // console.log("#push");
-    }
-    if (diffL === 2) { /* pop */
-      // console.log("pop");
-      env.stack.pop();
-    }
-    break;
-   case 1:
-    if (diffL === 0) { /* add */
-      // console.log("add");
-      var tmp1 = env.stack.pop();
-      var tmp2 = env.stack.pop();
-      if (tmp1 !== undefined) {
-	if (tmp2 !== undefined) {
-	  env.stack.push(tmp1 + tmp2);
-	} else { // 2つ目が取れなかったので、スタックを戻す。
-	  env.stack.push(tmp1);
-	}
-      } else {
+    case 0:
+      if (diffL === 0) { /* none */ }
+      if (diffL === 1) { /* push */
+        env.stack.push(env.area);
+      }
+      if (diffL === 2) { /* pop */
+        env.stack.pop();
+      }
+      break;
+    case 1:
+      if (diffL === 0) { /* add */
+        var tmp1 = env.stack.pop();
+        var tmp2 = env.stack.pop();
+        if (tmp1 !== undefined) {
+          if (tmp2 !== undefined) {
+            env.stack.push(tmp1 + tmp2);
+          } else { // 2つ目が取れなかったので、スタックを戻す。
+            env.stack.push(tmp1);
+          }
+        } else {
+          // 一つも取れず失敗した。
+        }
+      }
+      if (diffL === 1) { /* substract */
+        var tmp1 = env.stack.pop();
+        var tmp2 = env.stack.pop();
+        if (tmp1 !== undefined) {
+          if (tmp2 !== undefined) {
+            env.stack.push(tmp2 - tmp1);
+          } else { // 2つ目が取れなかったので、スタックを戻す。
+            env.stack.push(tmp1);
+          }
+        } else {
+          // 一つも取れず失敗した。
+        }
+      }
+      if (diffL === 2) { /* multiply */
+        var tmp1 = env.stack.pop();
+        var tmp2 = env.stack.pop();
+        if (tmp1 !== undefined) {
+          if (tmp2 !== undefined) {
+            env.stack.push(tmp1 * tmp2);
+          } else { // 2つ目が取れなかったので、スタックを戻す。
+            env.stack.push(tmp1);
+          }
+        } else {
+          // 一つも取れず失敗した。
+        }
+      }
+      break;
+    case 2:
+      if (diffL === 0) { /* divide */
+        var tmp1 = env.stack.pop();
+        var tmp2 = env.stack.pop();
+        if (tmp1 !== undefined) {
+          if (tmp2 !== undefined) {
+            if (tmp1 !== 0) {
+              env.stack.push((tmp2 / tmp1)|0);
+            } else { // 失敗した。スタックを戻す。
+              env.stack.push(tmp2);
+              env.stack.push(tmp1);
+            }
+          } else { // 2つ目が取れなかったので、スタックを戻す。
+            env.stack.push(tmp1);
+          }
+        } else {
 	// 一つも取れず失敗した。
+        }
       }
-    }
-    if (diffL === 1) { /* substract */
-      // console.log("sub");
-      var tmp1 = env.stack.pop();
-      var tmp2 = env.stack.pop();
-      if (tmp1 !== undefined) {
-	if (tmp2 !== undefined) {
-	  env.stack.push(tmp2 - tmp1);
-	} else { // 2つ目が取れなかったので、スタックを戻す。
-	  env.stack.push(tmp1);
-	}
-      } else {
-	// 一つも取れず失敗した。
+      if (diffL === 1) { /* mod */
+        var tmp1 = env.stack.pop();
+        var tmp2 = env.stack.pop();
+        if (tmp1 !== undefined) {
+          if (tmp2 !== undefined) {
+            env.stack.push(mod(tmp2, tmp1));
+          } else { // 2つ目が取れなかったので、スタックを戻す。
+            env.stack.push(tmp1);
+          }
+        } else {
+          // 一つも取れず失敗した。
+        }
       }
-    }
-    if (diffL === 2) { /* multiply */
-      // console.log("mul");
-      var tmp1 = env.stack.pop();
-      var tmp2 = env.stack.pop();
-      if (tmp1 !== undefined) {
-	if (tmp2 !== undefined) {
-	  env.stack.push(tmp1 * tmp2);
-	} else { // 2つ目が取れなかったので、スタックを戻す。
-	  env.stack.push(tmp1);
-	}
-      } else {
-	// 一つも取れず失敗した。
+      if (diffL === 2) { /* not */
+        var tmp = env.stack.pop();
+        if (tmp !== undefined) {
+          if (tmp === 0) {
+            env.stack.push(1);
+          } else {
+            env.stack.push(0);
+          }
+        } else {
+          // 取れなかった場合なので積まない。
+        }
       }
-    }
-    break;
-   case 2:
-    if (diffL === 0) { /* divide */
-      // console.log("div");
-      var tmp1 = env.stack.pop();
-      var tmp2 = env.stack.pop();
-      if (tmp1 !== undefined) {
-	if (tmp2 !== undefined) {
-	  if (tmp1 !== 0) {
-	    env.stack.push((tmp2 / tmp1)|0);
-	  } else { // 失敗した。スタックを戻す。
-	    env.stack.push(tmp2);
-	    env.stack.push(tmp1);
-	  }
-	} else { // 2つ目が取れなかったので、スタックを戻す。
-	  env.stack.push(tmp1);
-	}
-      } else {
-	// 一つも取れず失敗した。
+      break;
+    case 3:
+      if (diffL === 0) { /* greater */
+        var tmp1 = env.stack.pop();
+        var tmp2 = env.stack.pop();
+        if (tmp1 !== undefined) {
+          if (tmp2 !== undefined) {
+            if (tmp2 > tmp1) {
+              env.stack.push(1);
+            } else {
+              env.stack.push(0);
+            }
+          } else { // 2つ目が取れなかったので、スタックを戻す。
+            env.stack.push(tmp1);
+          }
+        } else {
+          // 一つも取れず失敗した。
+        }
       }
-    }
-    if (diffL === 1) { /* mod */
-      // console.log("mod");
-      // console.log(env.stack);
-      // console.log("#mod");
-      var tmp1 = env.stack.pop();
-      var tmp2 = env.stack.pop();
-      if (tmp1 !== undefined) {
-	if (tmp2 !== undefined) {
-	  env.stack.push(mod(tmp2, tmp1));
-	} else { // 2つ目が取れなかったので、スタックを戻す。
-	  env.stack.push(tmp1);
-	}
-      } else {
-	// 一つも取れず失敗した。
+      if (diffL === 1) { /* pointer */
+        var tmp = env.stack.pop();
+        if (tmp !== undefined) {
+          env.dp += tmp;
+        } else {
+          // 取れなかった。
+        }
       }
-    }
-    if (diffL === 2) { /* not */
-      // console.log("not");
-      var tmp = env.stack.pop();
-      if (tmp !== undefined) {
-	if (tmp === 0) {
-	  env.stack.push(1);
-	} else {
-	  env.stack.push(0);
-	}
-      } else {
-	// 取れなかった場合なので積まない。
+      if (diffL === 2) { /* switch */
+        var tmp = env.stack.pop();
+        if (tmp !== undefined) {
+          env.cc += tmp;
+        } else {
+           // 取れなかった。
+        }
       }
-    }
-    break;
-   case 3:
-    if (diffL === 0) { /* greater */
-      // console.log("greater");
-      // console.log(env.stack);
-      var tmp1 = env.stack.pop();
-      var tmp2 = env.stack.pop();
-      if (tmp1 !== undefined) {
-	if (tmp2 !== undefined) {
-	  if (tmp2 > tmp1) {
-	    env.stack.push(1);
-	  } else {
-	    env.stack.push(0);
-	  }
-	} else { // 2つ目が取れなかったので、スタックを戻す。
-	  env.stack.push(tmp1);
-	}
-      } else {
-	// 一つも取れず失敗した。
+      break;
+    case 4:
+      if (diffL === 0) { /* duplicate */
+        var tmp = env.stack.pop();
+        if (tmp !== undefined) {
+          env.stack.push(tmp);
+          env.stack.push(tmp);
+        } else {
+          // 取れなかった。
+        }
       }
-    }
-    if (diffL === 1) { /* pointer */
-      // console.log("pointer");
-      var tmp = env.stack.pop();
-      // console.log("#pointer: dp + " + tmp)
-      if (tmp !== undefined) {
-	env.dp += tmp;
-      } else {
-	// 取れなかった。
+      if (diffL === 1) { /* roll */
+        // めんどくさい
+        var tmp1 = env.stack.pop();
+        var tmp2 = env.stack.pop();
+        if (tmp1 !== undefined) {
+          if (tmp2 !== undefined) {
+            if (tmp2 < 0) { // 深さが負のロールは失敗する。
+              env.stack.push(tmp2);
+              env.stack.push(tmp1);
+            } else { // ここ
+              var fail = false;
+              var view = new Array(tmp2);
+              for (var i = 0; i < tmp2; ++i) {
+                view[i] = env.stack.pop();
+              }
+              for (i = tmp2; i > 0; --i) { // 失敗してないかな？
+                if (view[i-1] === undefined) {
+                  break;
+                }
+              }
+              if (i !== 0) { // 失敗してた。
+                var last = i;
+                fail = true;
+                for (i = 0; i < last; ++i) { // 巻き戻す。
+                  env.stack.push(view[i]);
+                }
+              }
+              if (!fail) {
+                var res = new Array(tmp2);
+                for (var i = 0; i < res.length; ++i) {
+                  res[i] = view[(i+tmp1)%tmp2];
+                }
+                var l = res.length;
+                for (var i = 0; i < l; ++i) {
+                  env.stack.push(res.pop());
+                }
+              }
+            }
+          } else { // 2つ目が取れなかったので、スタックを戻す。
+            env.stack.push(tmp1);
+          }
+        } else {
+          // 一つも取れず失敗した。
+        }
       }
-    }
-    if (diffL === 2) { /* switch */
-      // console.log("switch");
-      var tmp = env.stack.pop();
-      if (tmp !== undefined) {
-	env.cc += tmp;
-      } else {
-	// 取れなかった。
+      if (diffL === 2) { /* in(num) */
+        var tmp = env.input.shift();
+        var num = parseInt(tmp, 10);
+        if (!Number.isNaN(num)) {
+          env.stack.push(num);
+        } else {
+          // どうしよう？
+        }
       }
-    }
-    break;
-   case 4:
-    if (diffL === 0) { /* duplicate */
-      // console.log("dup");
-      var tmp = env.stack.pop();
-      if (tmp !== undefined) {
-	env.stack.push(tmp);
-	env.stack.push(tmp);
-      } else {
-	// 取れなかった。
+      break;
+    case 5:
+      if (diffL === 0) { /* in(char) */
+        var tmp = env.input.shift();
+        var num = tmp.charCodeAt(0);
+        env.stack.push(num);
       }
-    }
-    if (diffL === 1) { /* roll */
-      // console.log("roll")
-      // めんどくさい
-      var tmp1 = env.stack.pop();
-      var tmp2 = env.stack.pop();
-      if (tmp1 !== undefined) {
-	if (tmp2 !== undefined) {
-	  if (tmp2 < 0) { // 深さが負のロールは失敗する。
-	    env.stack.push(tmp2);
-	    env.stack.push(tmp1);
-	  } else { // ここ
-	    // console.log("pre")
-	    // console.log(env.stack)
-	    // console.log(tmp1)
-	    // console.log(tmp2)
-	    var fail = false;
-	    var view = new Array(tmp2);
-	    for (var i = 0; i < tmp2; ++i) {
-	      view[i] = env.stack.pop();
-	    }
-	    for (i = tmp2; i > 0; --i) { // 失敗してないかな？
-	      if (view[i-1] === undefined) {
-		break;
-		  }
-		}
-		if (i !== 0) { // 失敗してた。
-		  var last = i;
-		  fail = true;
-		  for (i = 0; i < last; ++i) { // 巻き戻す。
-		    env.stack.push(view[i]);
-		  }
-		}
-	    // console.log(view)
-	    // console.log(env.stack)
-	    // console.log(fail)
-	    if (!fail) {
-	      var res = new Array(tmp2);
-	      for (var i = 0; i < res.length; ++i) {
-		res[i] = view[(i+tmp1)%tmp2];
-	      }
-	      // console.log(res)
-	      // console.log(env.stack)
-              var l = res.length;
-	      for (var i = 0; i < l; ++i) {
-		env.stack.push(res.pop());
-	      }
-	    }
-	    // console.log("post")
-	    // console.log(env.stack)
-	  }
-	} else { // 2つ目が取れなかったので、スタックを戻す。
-	  env.stack.push(tmp1);
-	}
-      } else {
-	// 一つも取れず失敗した。
+      if (diffL === 1) { /* out(num) */
+        var tmp = env.stack.pop();
+        if (tmp !== undefined) {
+          env.output += tmp.toString();
+        }
       }
-    }
-    if (diffL === 2) { /* in(num) */
-      var tmp = env.input.shift();
-      var num = parseInt(tmp, 10);
-      if (!Number.isNaN(num)) {
-	env.stack.push(num);
-      } else {
-	// どうしよう？
+      if (diffL === 2) { /* out(char) */
+        var tmp = env.stack.pop();
+        if (tmp !== undefined) {
+          env.output += String.fromCharCode(tmp);
+        }
       }
-    }
-    break;
-   case 5:
-    if (diffL === 0) { /* in(char) */
-      var tmp = env.input.shift();
-      var num = tmp.charCodeAt(0);
-      env.stack.push(num);
-    }
-    if (diffL === 1) { /* out(num) */
-      var tmp = env.stack.pop();
-      if (tmp !== undefined) {
-	env.output += tmp.toString();
-      }
-    }
-    if (diffL === 2) { /* out(char) */
-      var tmp = env.stack.pop();
-      if (tmp !== undefined) {
-	env.output += String.fromCharCode(tmp);
-      }
-    }
-    break;
+      break;
+    default:
+      /* never come */
   }
 }
 
@@ -362,18 +333,18 @@ function findNextCodelImp(env, code) {
       var newp = [point[0] - 1, point[1]];
       var ins = true;
       for (var p of done) {
-	if (eq(p, newp)) {
-	  ins = false;
-	  break;
-	}
+        if (eq(p, newp)) {
+          ins = false;
+          break;
+        }
       }
       if (ins) {
-	for (var p of que) {
-	  if (eq(p, newp)) {
-	    ins = false;
-	    break;
-	  }
-	    }
+        for (var p of que) {
+          if (eq(p, newp)) {
+            ins = false;
+            break;
+          }
+        }
       }
       if (ins) que.push(newp);
     }
@@ -381,18 +352,18 @@ function findNextCodelImp(env, code) {
       var newp = [point[0], point[1] - 1];
       var ins = true;
       for (var p of done) {
-	if (eq(p, newp)) {
-	  ins = false;
-	  break;
-	}
+        if (eq(p, newp)) {
+          ins = false;
+          break;
+        }
       }
       if (ins) {
-	for (var p of que) {
-	  if (eq(p, newp)) {
-	    ins = false;
-	    break;
-	      }
-	}
+        for (var p of que) {
+          if (eq(p, newp)) {
+            ins = false;
+            break;
+          }
+        }
       }
       if (ins) que.push(newp);
     }
@@ -400,18 +371,18 @@ function findNextCodelImp(env, code) {
       var newp = [point[0] + 1, point[1]];
       var ins = true;
       for (var p of done) {
-	if (eq(p, newp)) {
-	  ins = false;
-	  break;
-	}
+        if (eq(p, newp)) {
+          ins = false;
+          break;
+        }
       }
       if (ins) {
-	for (var p of que) {
-	  if (eq(p, newp)) {
-	    ins = false;
-	    break;
-	  }
-	}
+        for (var p of que) {
+          if (eq(p, newp)) {
+            ins = false;
+            break;
+          }
+        }
       }
       if (ins) que.push(newp);
     }
@@ -419,19 +390,19 @@ function findNextCodelImp(env, code) {
       var newp = [point[0], point[1] + 1];
       var ins = true;
       for (var p of done) {
-	if (eq(p, newp)) {
-	  ins = false;
-	  break;
-	}
+        if (eq(p, newp)) {
+          ins = false;
+          break;
+        }
       }
       if (ins) {
-	for (var p of que) {
-	  if (eq(p, newp)) {
-	    ins = false;
-	    break;
-	  }
-	}
-	  }
+        for (var p of que) {
+          if (eq(p, newp)) {
+            ins = false;
+            break;
+          }
+        }
+      }
       if (ins) que.push(newp);
     }
   }
@@ -440,84 +411,84 @@ function findNextCodelImp(env, code) {
 
   var nextCodel = [-1, -1];
   switch (dp % 4) {
-   case 0:
-    var max = -1;
-    for (var p of list) max = Math.max(max, p[1]);
-    list = list.filter(function(p){ return p[1] == max; });
-    if (list.length !== 1){
-      // cc を考慮
-      if (cc % 2 === 0) {
-	var min = Infinity;
-	for (var p of list) min = Math.min(min, p[0]);
-	list = list.filter(function(p){ return p[0] == min; });
-      } else {
-	var max = -1;
-	for (var p of list) max = Math.max(max, p[0]);
-	list = list.filter(function(p){ return p[0] == max; });
+    case 0:
+      var max = -1;
+      for (var p of list) max = Math.max(max, p[1]);
+      list = list.filter(function(p){ return p[1] == max; });
+      if (list.length !== 1){
+        // cc を考慮
+        if (cc % 2 === 0) {
+          var min = Infinity;
+          for (var p of list) min = Math.min(min, p[0]);
+          list = list.filter(function(p){ return p[0] == min; });
+        } else {
+          var max = -1;
+          for (var p of list) max = Math.max(max, p[0]);
+          list = list.filter(function(p){ return p[0] == max; });
+        }
       }
-    }
-    nextCodel = list[0];
-    nextCodel[1] += 1;
-    break;
-   case 1:
-    var max = -1;
-    for (var p of list) max = Math.max(max, p[0]);
-    list = list.filter(function(p){ return p[0] == max; });
-    if (list.length !== 1) {
-      // cc を考慮
-      if (cc % 2 === 0) {
-	var max = -1;
-	for (var p of list) max = Math.max(max, p[1]);
-	list = list.filter(function(p){ return p[1] == max; });
-      } else {
-	var min = Infinity;
-	for (var p of list) min = Math.min(min, p[1]);
-	list = list.filter(function(p){ return p[1] == min; });
+      nextCodel = list[0];
+      nextCodel[1] += 1;
+      break;
+    case 1:
+      var max = -1;
+      for (var p of list) max = Math.max(max, p[0]);
+      list = list.filter(function(p){ return p[0] == max; });
+      if (list.length !== 1) {
+        // cc を考慮
+        if (cc % 2 === 0) {
+          var max = -1;
+          for (var p of list) max = Math.max(max, p[1]);
+          list = list.filter(function(p){ return p[1] == max; });
+        } else {
+          var min = Infinity;
+          for (var p of list) min = Math.min(min, p[1]);
+          list = list.filter(function(p){ return p[1] == min; });
+        }
       }
-    }
-    nextCodel = list[0];
-    nextCodel[0] += 1;
-    break;
-   case 2:
-    var min = Infinity;
-    for (var p of list) min = Math.min(min, p[1]);
-    list = list.filter(function(p){ return p[1] == min; });
-    if (list.length !== 1) {
-      // cc を考慮
-      if (cc % 2 === 0) {
-	var max = -1;
-	for (var p of list) max = Math.max(max, p[0]);
-	list = list.filter(function(p){ return p[0] == max; });
-      } else {
-	var min = Infinity;
-	for (var p of list) min = Math.min(min, p[0]);
-	list = list.filter(function(p){ return p[0] == min; });
+      nextCodel = list[0];
+      nextCodel[0] += 1;
+      break;
+    case 2:
+      var min = Infinity;
+      for (var p of list) min = Math.min(min, p[1]);
+      list = list.filter(function(p){ return p[1] == min; });
+      if (list.length !== 1) {
+        // cc を考慮
+        if (cc % 2 === 0) {
+          var max = -1;
+          for (var p of list) max = Math.max(max, p[0]);
+          list = list.filter(function(p){ return p[0] == max; });
+        } else {
+          var min = Infinity;
+          for (var p of list) min = Math.min(min, p[0]);
+          list = list.filter(function(p){ return p[0] == min; });
+        }
       }
-    }
-    nextCodel = list[0];
-    nextCodel[1] -= 1;
-    break;
-   case 3:
-    var min = Infinity;
-    for (var p of list) min = Math.min(min, p[0]);
-    list = list.filter(function(p){ return p[0] == min; });
-    if (list.length !== 1) {
-      // cc を考慮
-      if (cc % 2 === 0) {
-	var max = -1;
-	for (var p of list) max = Math.max(max, p[1]);
-	list = list.filter(function(p){ return p[1] == max; });
-      } else {
-	var min = Infinity;
-	for (var p of list) min = Math.min(min, p[1]);
-	list = list.filter(function(p){ return p[1] == min; });
+      nextCodel = list[0];
+      nextCodel[1] -= 1;
+      break;
+    case 3:
+      var min = Infinity;
+      for (var p of list) min = Math.min(min, p[0]);
+      list = list.filter(function(p){ return p[0] == min; });
+      if (list.length !== 1) {
+        // cc を考慮
+        if (cc % 2 === 0) {
+          var max = -1;
+          for (var p of list) max = Math.max(max, p[1]);
+          list = list.filter(function(p){ return p[1] == max; });
+        } else {
+          var min = Infinity;
+          for (var p of list) min = Math.min(min, p[1]);
+          list = list.filter(function(p){ return p[1] == min; });
+        }
       }
-    }
-    nextCodel = list[0];
-    nextCodel[0] -= 1;
-    break;
-  default:
-    // never come
+      nextCodel = list[0];
+      nextCodel[0] -= 1;
+      break;
+    default:
+      // never come
   }
   // process.stdout.write("findNext: ");
   // process.stdout.write(nextCodel.toString());
@@ -544,18 +515,18 @@ function findNextCodel(env, code) {
     point['exec'] = false;
     while (!outside(code, point) && code[point[0]][point[1]] === 'white') { // まっすぐ進む
       switch (env.dp % 4) {
-       case 0:
-	point[1]++;
-	break;
-       case 1:
-	point[0]++;
-	break;
-       case 2:
-	point[1]--;
-	break;
-       case 3:
-	point[0]--;
-	break;
+        case 0:
+          point[1]++;
+          break;
+        case 1:
+          point[0]++;
+          break;
+        case 2:
+          point[1]--;
+          break;
+        case 3:
+          point[0]--;
+          break;
       }
     }
   }
@@ -574,32 +545,32 @@ next = function(env, code) {
       env.dp++;
       nextCodel = findNextCodel(env, code);
       if (unmovable(code, nextCodel)) {
-	env.cc++;
-	nextCodel = findNextCodel(env, code);
-	if (unmovable(code, nextCodel)) {
-	  env.dp++;
-	  nextCodel = findNextCodel(env, code);
-	  if (unmovable(code, nextCodel)) {
-	    env.cc++;
-	    nextCodel = findNextCodel(env, code);
-	    if (unmovable(code, nextCodel)) {
-	      env.dp++;
-	      nextCodel = findNextCodel(env, code);
-	      if (unmovable(code, nextCodel)) {
-		env.cc++;
-		nextCodel = findNextCodel(env, code);
-		if (unmovable(code, nextCodel)) {
-		  env.dp++;
-		  nextCodel = findNextCodel(env, code);
-		  if (unmovable(code, nextCodel)) {
-		    // おしまい
-		    return 'stop';
-		  }
-		}
-	      }
-	    }
-	  }
-	}
+        env.cc++;
+        nextCodel = findNextCodel(env, code);
+        if (unmovable(code, nextCodel)) {
+          env.dp++;
+          nextCodel = findNextCodel(env, code);
+          if (unmovable(code, nextCodel)) {
+            env.cc++;
+            nextCodel = findNextCodel(env, code);
+            if (unmovable(code, nextCodel)) {
+              env.dp++;
+              nextCodel = findNextCodel(env, code);
+              if (unmovable(code, nextCodel)) {
+                env.cc++;
+                nextCodel = findNextCodel(env, code);
+                if (unmovable(code, nextCodel)) {
+                  env.dp++;
+                  nextCodel = findNextCodel(env, code);
+                  if (unmovable(code, nextCodel)) {
+                    // おしまい
+                    return 'stop';
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
