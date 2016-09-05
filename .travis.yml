@@ -12,6 +12,7 @@ addons:
     - libgif-dev
 install:
   - npm install
+  - npm run lint
   - node app.js devide_by_2.10cs.11x4.png
   - node app.js tests/gcd.png tests/gcd.js
   - node app.js tests/swap.png tests/swap.js
