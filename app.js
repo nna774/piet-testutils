@@ -53,10 +53,8 @@ function main(image, info) {
       console.log(`test ${c.name} failed!`);
       console.log(`expected: ${c.expect}, but it puts ${output}`);
       all = false;
-    } else {
-      if (config.verbose) {
-        console.log(`test ${c.name} passed!`);
-      }
+    } else if (config.verbose) {
+      console.log(`test ${c.name} passed!`);
     }
   }
   if (all) {
