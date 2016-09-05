@@ -1,6 +1,6 @@
-var utils = require('../utils');
+const utils = require('../utils');
 
-var cases = [
+const cases = [
   {
     name: '1 2',
     desc: '1 2',
@@ -42,18 +42,18 @@ var cases = [
 
 function gcd(n, m) {
   if (n < m) return gcd(m, n);
-  var r = n % m;
+  const r = n % m;
   if (r === 0) return m;
   return gcd(m, r);
 }
 
-var gen = function() {
-  var rand = (Math.random() * 10000)|0;
+function gen() {
+  const rand = (Math.random() * 10000) | 0;
   return rand + 1;
-};
+}
 
-var randCases = utils.randomTest(gen, gcd);
+const randCases = utils.randomTest(gen, gcd);
 
 module.exports = {
-  cases: cases,
+  cases: cases.concat(randCases),
 };
