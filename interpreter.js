@@ -89,7 +89,7 @@ function execCommand(env, currentColor, nextColor) {
   const nextT = table[nextColor];
 
   const diffL = (nextT[0] - currentT[0] + 3) % 3;
-  const diffH = (nextT[1] - currentT[1] +6) % 6;
+  const diffH = (nextT[1] - currentT[1] + 6) % 6;
 
   switch (diffH) {
     case 0:
@@ -149,7 +149,7 @@ function execCommand(env, currentColor, nextColor) {
         if (tmp1 !== undefined) {
           if (tmp2 !== undefined) {
             if (tmp1 !== 0) {
-              env.stack.push((tmp2 / tmp1)|0);
+              env.stack.push((tmp2 / tmp1) | 0);
             } else { // 失敗した。スタックを戻す。
               env.stack.push(tmp2);
               env.stack.push(tmp1);
@@ -244,12 +244,12 @@ function execCommand(env, currentColor, nextColor) {
             } else { // ここ
               let fail = false;
               const view = new Array(tmp2);
-	      let i;
+              let i;
               for (i = 0; i < tmp2; ++i) {
                 view[i] = env.stack.pop();
               }
               for (i = tmp2; i > 0; --i) { // 失敗してないかな？
-                if (view[i-1] === undefined) {
+                if (view[i - 1] === undefined) {
                   break;
                 }
               }
@@ -263,7 +263,7 @@ function execCommand(env, currentColor, nextColor) {
               if (!fail) {
                 const res = new Array(tmp2);
                 for (let i = 0; i < res.length; ++i) {
-                  res[i] = view[(i+tmp1)%tmp2];
+                  res[i] = view[(i + tmp1) % tmp2];
                 }
                 const l = res.length;
                 for (let i = 0; i < l; ++i) {
@@ -417,7 +417,7 @@ function findNextCodelImp(env, code) {
       let max = -1;
       for (const p of list) max = Math.max(max, p[1]);
       list = list.filter((p) => p[1] === max);
-      if (list.length !== 1){
+      if (list.length !== 1) {
         // cc を考慮
         if (cc % 2 === 0) {
           let min = Infinity;
@@ -600,7 +600,7 @@ function next(env, code) {
   env.y = nextCodel[1];
 
   return 'cont';
-};
+}
 
 function run(env, code) {
   'use strict';
@@ -611,21 +611,10 @@ function run(env, code) {
   return env.output;
 }
 
-const defaultEnv = {
-  x: 0,
-  y: 0,
-  dp: 0,
-  cc: 0,
-  stack: [],
-  input: [],
-  output: '',
-  area: 0,
-};
-
 module.exports = {
-  next: next,
+  next,
 
-  run: function(code, input) {
+  run: (code, input) => {
     'use strict';
     const env = {};
     env.x = env.y = env.dp = env.cc = env.area = 0;
