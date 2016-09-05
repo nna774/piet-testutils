@@ -22,12 +22,12 @@ function main(image, info) {
   ctx.drawImage(image, 0, 0);
 
   const code = new Array(height);
-  for(let i = 0; i < height; ++i) {
+  for (let i = 0; i < height; ++i) {
     code[i] = new Array(width);
   }
   // 確かに効率は悪い、しかし、それが問題となるほどの大きさのPietを描けるのでしょうか(余白作ればいいだけだから描けそうだ)。
-  for(let i = 0; i < height; ++i) {
-    for(let j = 0; j < width; ++j) {
+  for (let i = 0; i < height; ++i) {
+    for (let j = 0; j < width; ++j) {
       const color = pick_color(ctx, j * config.codel, i * config.codel);
       for (const k in config.colors) {
         if (color === config.colors[k]) {
