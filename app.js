@@ -26,7 +26,7 @@ function main(image, info) {
     code[i] = new Array(width);
   }
   // 確かに効率は悪い、しかし、それが問題となるほどの大きさのPietを描けるのでしょうか(余白作ればいいだけだから描けそうだ)。
-  for(i = 0; i < height; ++i) {
+  for(let i = 0; i < height; ++i) {
     for(let j = 0; j < width; ++j) {
       const color = pick_color(ctx, j * config.codel, i * config.codel);
       for (const k in config.colors) {
@@ -78,7 +78,7 @@ easyimg.info(filename).then(
   function(info){
     fs.readFile(filename, function(err, data) {
       if (err) throw err;
-      image = new Image();
+      const image = new Image();
       image.src = data;
       main(image, info);
     });
