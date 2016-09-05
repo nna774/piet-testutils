@@ -14,14 +14,12 @@ const config = require('./config');
 const Image = Canvas.Image;
 
 function pickColor(ctx, x, y) {
-  'use strict';
   const img = ctx.getImageData(x, y, 1, 1);
   const data = img.data;
   return (data[0] << 16) + (data[1] << 8) + (data[2] << 0);
 }
 
 function main(image, info) {
-  'use strict';
   const width = info.width / config.codel;
   const height = info.height / config.codel;
   const canvas = new Canvas(width * config.codel, height * config.codel);
