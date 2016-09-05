@@ -74,13 +74,13 @@ if (process.argv.length < 3) {
 
 const filename = process.argv[2];
 
-easyimg.info(filename).then(function(info){
-  fs.readFile(filename, function(err, data) {
+easyimg.info(filename).then((info) => {
+  fs.readFile(filename, (err, data) => {
     if (err) throw err;
     const image = new Image();
     image.src = data;
     main(image, info);
   });
-}, function (err) {
+}, (err) => {
   console.log(err);
 });
