@@ -5,6 +5,7 @@ module.exports = {
     "no-mixed-operators": ["error", { "allowSamePrecedence": true }],
     "yoda": ["error", "never", { "exceptRange": true }],
     "strict": ["error", "function"],
+    "no-param-reassign": ["error", { "props": false }],
   },
   env: {
     node: true,
