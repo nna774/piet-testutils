@@ -43,6 +43,7 @@ var cases = [
 function mod(n, m) {
   if (n === 0 || m === 0) return 0;
   var ans = n % m;
+  if (ans === 0) return 0; // 割り切れていたらいずれにせよ0
   if (n > 0 && m > 0) return ans;
   if ((n > 0 && m < 0) ||
       (n < 0 && m > 0)) return ans + m;
