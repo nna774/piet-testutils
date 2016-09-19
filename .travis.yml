@@ -1,20 +1,27 @@
 language: node_js
 node_js:
-  - 0.11
-  - 0.12
+  - 5.11
+  - 6
+  - 6.1
 sudo: false
 addons:
   apt:
+    sources:
+      - ubuntu-toolchain-r-test
     packages:
-    - imagemagick
-    - libmagickwand-dev
-    - libmagickcore-dev
-    - libgif-dev
+      - libgif-dev
+      - libcairo2-dev
+      - libjpeg8-dev
+      - libpango1.0-dev
+      - g++-4.8
+env:
+  - CXX=g++-4.8 NODE='node --use_strict --harmony_default_parameters'
 install:
   - npm install
-  - node app.js devide_by_2.10cs.11x4.png
-  - node app.js tests/gcd.png tests/gcd.js
-  - node app.js tests/swap.png tests/swap.js
-  - node app.js tests/mod.png tests/mod.js
-  - sed -i -e "s/var codel = 10;/var codel = 1;/" config.js
-  - node app.js tests/lisp-like-calc.png tests/lisp-like-calc.js
+  - npm run lint
+  - $NODE app.js devide_by_2.10cs.11x4.png
+  - $NODE app.js tests/gcd.png tests/gcd.js
+  - $NODE app.js tests/swap.png tests/swap.js
+  - $NODE app.js tests/mod.png tests/mod.js
+  - sed -i -e "s/const codel = 10;/const codel = 1;/" config.js
+  - $NODE app.js tests/lisp-like-calc.png tests/lisp-like-calc.js

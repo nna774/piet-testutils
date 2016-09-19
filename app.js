@@ -1,87 +1,86 @@
 // app.js
 
-var testfile = process.argv[3] || 'tests.js';
-if (testfile[0] !== '/') testfile = './' + testfile;
+let testfile = process.argv[3] || 'tests.js';
+if (testfile[0] !== '/') testfile = `./${testfile}`;
 
-var Canvas = require('canvas')
-  , Image = Canvas.Image
-  , fs = require('fs')
-  , easyimg = require('easyimage')
-  , config = require('./config')
-  , interpreter = require('./interpreter')
-  , tests = require(testfile);
+const Canvas = require('canvas');
+const fs = require('fs');
+const easyimg = require('easyimage');
+const interpreter = require('./interpreter');
+
+const tests = require(testfile);
+const config = require('./config');
+
+const Image = Canvas.Image;
+
+function pickColor(ctx, x, y) {
+  const img = ctx.getImageData(x, y, 1, 1);
+  const data = img.data;
+  return (data[0] << 16) + (data[1] << 8) + (data[2] << 0);
+}
 
 function main(image, info) {
-  'use strict';
-  var width = info.width / config.codel;
-  var height = info.height / config.codel;
-  var canvas = new Canvas(width * config.codel, height * config.codel);
-  var ctx = canvas.getContext('2d');
+  const width = info.width / config.codel;
+  const height = info.height / config.codel;
+  if (height !== Math.floor(height)) {
+    console.warn(`height ${height} is not integer; maybe codel config miss?(size ${config.codel})`);
+  }
+  const canvas = new Canvas(width * config.codel, height * config.codel);
+  const ctx = canvas.getContext('2d');
 
   ctx.drawImage(image, 0, 0);
 
-  var code = new Array(height);
-  for(var i = 0; i < height; ++i) {
+  const code = new Array(height);
+  for (let i = 0; i < height; ++i) {
     code[i] = new Array(width);
   }
   // 確かに効率は悪い、しかし、それが問題となるほどの大きさのPietを描けるのでしょうか(余白作ればいいだけだから描けそうだ)。
-  for(i = 0; i < height; ++i) {
-    for(var j = 0; j < width; ++j) {
-      var color = pick_color(ctx, j * config.codel, i * config.codel);
-      for (var k in config.colors) {
-	if (color === config.colors[k]) {
-	  code[i][j] = k;
-	  break;
-	}
+  for (let i = 0; i < height; ++i) {
+    for (let j = 0; j < width; ++j) {
+      const color = pickColor(ctx, j * config.codel, i * config.codel);
+      for (const k of Object.keys(config.colors)) {
+        if (color === config.colors[k]) {
+          code[i][j] = k;
+          break;
+        }
       }
     }
   }
 
-  var all = true;
-  for (var c of tests.cases) {
-    var output = interpreter.run(code, c.input);
+  let all = true;
+  for (const c of tests.cases) {
+    const output = interpreter.run(code, c.input);
     if (output !== c.expect) {
-      console.log("test " + c.name + " failed!");
-      console.log("expected: " + c.expect + ", but it puts " + output);
+      console.log(`test ${c.name} failed!`);
+      console.log(`expected: ${c.expect}, but it puts ${output}`);
       all = false;
-    } else {
-      if (config.verbose) {
-        console.log("test " + c.name + " passed!");
-      }
+    } else if (config.verbose) {
+      console.log(`test ${c.name} passed!`);
     }
   }
   if (all) {
-    console.log("all tests passed!");
+    console.log('all tests passed!');
     process.exit(0);
   } else {
-    console.log("some tests failed...");
+    console.log('some tests failed...');
     process.exit(1);
   }
 }
 
-function pick_color(ctx, x, y) {
-  'use strict';
-  var img = ctx.getImageData(x, y, 1, 1);
-  var data = img.data;
-  return (data[0] << 16) + (data[1] << 8) + (data[2] << 0);
-}
-
 if (process.argv.length < 3) {
   console.log('missing argument.');
-  return;
+  process.exit(-1);
 }
 
-var filename = process.argv[2];
+const filename = process.argv[2];
 
-easyimg.info(filename).then(
-  function(info){
-    fs.readFile(filename, function(err, data) {
-      if (err) throw err;
-      image = new Image();
-      image.src = data;
-      main(image, info);
-    });
-  },  function (err) {
-    console.log(err);
-  }
-);
+easyimg.info(filename).then((info) => {
+  fs.readFile(filename, (err, data) => {
+    if (err) throw err;
+    const image = new Image();
+    image.src = data;
+    main(image, info);
+  });
+}, (err) => {
+  console.log(err);
+});
