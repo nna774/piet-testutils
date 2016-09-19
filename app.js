@@ -22,6 +22,9 @@ function pickColor(ctx, x, y) {
 function main(image, info) {
   const width = info.width / config.codel;
   const height = info.height / config.codel;
+  if (height !== Math.floor(height)) {
+    console.warn(`height ${height} is not integer; maybe codel config miss?(size ${config.codel})`);
+  }
   const canvas = new Canvas(width * config.codel, height * config.codel);
   const ctx = canvas.getContext('2d');
 
