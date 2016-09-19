@@ -15,13 +15,13 @@ addons:
       - libpango1.0-dev
       - g++-4.8
 env:
-  - CXX=g++-4.8
+  - CXX=g++-4.8 NODE='node --use_strict --harmony_default_parameters'
 install:
   - npm install
   - npm run lint
-  - node --use_strict app.js devide_by_2.10cs.11x4.png
-  - node --use_strict app.js tests/gcd.png tests/gcd.js
-  - node --use_strict app.js tests/swap.png tests/swap.js
-  - node --use_strict app.js tests/mod.png tests/mod.js
+  - $NODE app.js devide_by_2.10cs.11x4.png
+  - $NODE app.js tests/gcd.png tests/gcd.js
+  - $NODE app.js tests/swap.png tests/swap.js
+  - $NODE app.js tests/mod.png tests/mod.js
   - sed -i -e "s/var codel = 10;/var codel = 1;/" config.js
-  - node app.js tests/lisp-like-calc.png tests/lisp-like-calc.js
+  - $NODE app.js tests/lisp-like-calc.png tests/lisp-like-calc.js
