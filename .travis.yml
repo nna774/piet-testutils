@@ -23,5 +23,5 @@ install:
   - $NODE app.js tests/gcd.png tests/gcd.js
   - $NODE app.js tests/swap.png tests/swap.js
   - $NODE app.js tests/mod.png tests/mod.js
-  - sed -i -e "s/var codel = 10;/var codel = 1;/" config.js
+  - sed -i -e "s/const codel = 10;/const codel = 1;/" config.js
   - $NODE app.js tests/lisp-like-calc.png tests/lisp-like-calc.js
