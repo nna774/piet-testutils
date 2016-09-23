@@ -8,9 +8,11 @@ module.exports = {
     "yoda": ["error", "never", { "exceptRange": true }],
     "strict": ["error", "function"],
     "no-param-reassign": ["error", { "props": false }],
+    "arrow-parens": ["error", "always"],
   },
   env: {
     node: true,
-    browser: false
+    browser: false,
+    es6: true,
   },
 }
