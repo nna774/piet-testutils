@@ -5,7 +5,8 @@
   "main": "app.js",
   "dependencies": {
     "canvas": "^1.4.0",
-    "easyimage": "^2.0.3"
+    "easyimage": "^2.0.3",
+    "piet-loader": "0.0.1"
   },
   "devDependencies": {
     "eslint": "^3.4.0",

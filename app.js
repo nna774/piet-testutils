@@ -11,42 +11,11 @@ const interpreter = require('./interpreter');
 const tests = require(testfile);
 const config = require('./config');
 
+const loader = require('piet-loader');
+
 const Image = Canvas.Image;
 
-function pickColor(ctx, x, y) {
-  const img = ctx.getImageData(x, y, 1, 1);
-  const data = img.data;
-  return (data[0] << 16) + (data[1] << 8) + (data[2] << 0);
-}
-
-function main(image, info) {
-  const width = info.width / config.codel;
-  const height = info.height / config.codel;
-  if (height !== Math.floor(height)) {
-    console.warn(`height ${height} is not integer; maybe codel config miss?(size ${config.codel})`);
-  }
-  const canvas = new Canvas(width * config.codel, height * config.codel);
-  const ctx = canvas.getContext('2d');
-
-  ctx.drawImage(image, 0, 0);
-
-  const code = new Array(height);
-  for (let i = 0; i < height; ++i) {
-    code[i] = new Array(width);
-  }
-  // 確かに効率は悪い、しかし、それが問題となるほどの大きさのPietを描けるのでしょうか(余白作ればいいだけだから描けそうだ)。
-  for (let i = 0; i < height; ++i) {
-    for (let j = 0; j < width; ++j) {
-      const color = pickColor(ctx, j * config.codel, i * config.codel);
-      for (const k of Object.keys(config.colors)) {
-        if (color === config.colors[k]) {
-          code[i][j] = k;
-          break;
-        }
-      }
-    }
-  }
-
+function main(code) {
   let all = true;
   for (const c of tests.cases) {
     const output = interpreter.run(code, c.input);
@@ -74,13 +43,4 @@ if (process.argv.length < 3) {
 
 const filename = process.argv[2];
 
-easyimg.info(filename).then((info) => {
-  fs.readFile(filename, (err, data) => {
-    if (err) throw err;
-    const image = new Image();
-    image.src = data;
-    main(image, info);
-  });
-}, (err) => {
-  console.log(err);
-});
+loader.load(filename, config.codel).then(main);
