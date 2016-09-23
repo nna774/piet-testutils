@@ -152,7 +152,7 @@ function execCommand(env, currentColor, nextColor) {
             env.stack.push(tmp1);
           }
         } else {
-	// 一つも取れず失敗した。
+        // 一つも取れず失敗した。
         }
       }
       if (diffL === 1) { /* mod */
