@@ -3,17 +3,12 @@
 let testfile = process.argv[3] || 'tests.js';
 if (testfile[0] !== '/') testfile = `./${testfile}`;
 
-const Canvas = require('canvas');
-const fs = require('fs');
-const easyimg = require('easyimage');
+const loader = require('piet-loader');
 const interpreter = require('./interpreter');
 
 const tests = require(testfile);
 const config = require('./config');
 
-const loader = require('piet-loader');
-
-const Image = Canvas.Image;
 
 function main(code) {
   let all = true;

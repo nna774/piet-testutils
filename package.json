@@ -4,8 +4,6 @@
   "description": "testutils for piet",
   "main": "app.js",
   "dependencies": {
-    "canvas": "^1.4.0",
-    "easyimage": "^2.0.3",
     "piet-loader": "0.0.1"
   },
   "devDependencies": {
