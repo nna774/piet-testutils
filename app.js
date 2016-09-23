@@ -9,7 +9,6 @@ const interpreter = require('./interpreter');
 const tests = require(testfile);
 const config = require('./config');
 
-
 function main(code) {
   let all = true;
   for (const c of tests.cases) {
