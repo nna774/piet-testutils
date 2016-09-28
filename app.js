@@ -6,6 +6,7 @@ if (testfile[0] !== '/') testfile = `./${testfile}`;
 const loader = require('piet-loader');
 const interpreter = require('./interpreter');
 
+// eslint-disable-next-line import/no-dynamic-require
 const tests = require(testfile);
 const config = require('./config');
 
