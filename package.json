@@ -4,7 +4,8 @@
   "description": "testutils for piet",
   "main": "app.js",
   "dependencies": {
-    "piet-loader": "0.0.1"
+    "piet-loader": "0.0.1",
+    "piet-interpreter": "0.0.1"
   },
   "devDependencies": {
     "eslint": "^3.4.0",
