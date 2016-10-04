@@ -4,7 +4,7 @@ let testfile = process.argv[3] || 'tests.js';
 if (testfile[0] !== '/') testfile = `./${testfile}`;
 
 const loader = require('piet-loader');
-const interpreter = require('./interpreter');
+const interpreter = require('piet-interpreter');
 
 // eslint-disable-next-line import/no-dynamic-require
 const tests = require(testfile);
