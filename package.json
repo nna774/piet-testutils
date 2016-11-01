@@ -4,7 +4,7 @@
   "description": "testutils for piet",
   "main": "app.js",
   "dependencies": {
-    "piet-interpreter": "0.0.1",
+    "piet-interpreter": "0.0.3",
     "piet-loader": "0.0.2"
   },
   "devDependencies": {
